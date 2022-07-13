@@ -7,28 +7,28 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.bb.game.utils.Constants;
 
 public class Button extends Actor {
     Sprite sprite;
+    private static final float BUTTON_SCALE_ON_ANIMATION = 0.9f;
 
-    public Button(String internalPath, float x, float y, float width, float height) {
+    public Button(String name, String internalPath, float x, float y, float width, float height) {
+        setName(name);
         this.sprite = new Sprite(new Texture(internalPath));
         sprite.setBounds(x, y, width, height);
         setBounds(x, y, width, height);
         setTouchable(Touchable.enabled);
-
         addListener(new InputListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                sprite.setScale(sprite.getScaleX() - 0.1f, sprite.getScaleY() - 0.1f);
+                sprite.setScale(BUTTON_SCALE_ON_ANIMATION);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-               sprite.setScale(sprite.getScaleX() + 0.1f, sprite.getScaleY() + 0.1f);
+               sprite.setScale(1, 1);
             }
 
         });
