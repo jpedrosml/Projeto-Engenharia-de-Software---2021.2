@@ -1,5 +1,7 @@
 package com.bb.game.minigames;
 
+import com.bb.game.utils.Difficulty;
+
 public class MiniGameFactory {
     public enum Type{
         MEMORY, SEQUENCE, AIM, CHIMP
@@ -21,7 +23,7 @@ public class MiniGameFactory {
                 miniGame = createChimp(difficulty);
                 break;
             default:
-                break;
+                throw new IllegalStateException();
         }
         return null;
     }

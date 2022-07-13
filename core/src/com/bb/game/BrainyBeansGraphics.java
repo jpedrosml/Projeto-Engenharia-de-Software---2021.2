@@ -1,6 +1,5 @@
 package com.bb.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
