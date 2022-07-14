@@ -25,22 +25,22 @@ public class MiniGameFactory {
             default:
                 throw new IllegalStateException();
         }
-        return null;
+        return miniGame;
     }
 
     private static MiniGameGraphics createChimp(Difficulty difficulty) {
-        return null;
+        return new MemoryGraphics(difficulty);
     }
 
     private static MiniGameGraphics createAim(Difficulty difficulty) {
-        return null;
+        return new MemoryGraphics(difficulty);
     }
 
     private static MiniGameGraphics createSequence(Difficulty difficulty) {
-        return null;
+        return new MemoryGraphics(difficulty);
     }
 
     private static MiniGameGraphics createMemory(Difficulty difficulty) {
-        return null;
+        return new MemoryGraphics(difficulty);
     }
 }

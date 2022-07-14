@@ -12,8 +12,8 @@ public class BrainyBeans extends Game {
 
 	@Override
 	public void create () {
-		this.screen = new Menu(this);
-		setScreen(screen);
+		setScreen(new Menu(this));
+		this.screen = getScreen();
 	}
 
 	@Override
@@ -31,5 +31,14 @@ public class BrainyBeans extends Game {
 	@Override
 	public void resize(int width, int height) {
 		screen.resize(width, height);
+	}
+
+	@Override
+	public void setScreen(Screen screen) {
+		super.setScreen(screen);
+		if(this.screen != null) {
+			this.screen.dispose();
+		}
+		this.screen = screen;
 	}
 }

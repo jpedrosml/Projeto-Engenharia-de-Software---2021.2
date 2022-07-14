@@ -1,5 +1,6 @@
 package com.bb.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,6 +17,7 @@ public abstract class BrainyBeansGraphics extends ScreenAdapter {
         this.camera = new OrthographicCamera();
         this.viewport = new StretchViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera);
         this.stage = new Stage(this.viewport);
+        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override
