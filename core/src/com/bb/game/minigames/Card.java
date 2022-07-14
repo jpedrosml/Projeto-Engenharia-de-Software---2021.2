@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.Map;
 
@@ -16,6 +16,7 @@ public class Card extends Actor {
     private int id;
     private boolean revealed;
 
+    private final float SCALE_ON_CLICK = 0.95f;
     private static final Texture cardBack = new Texture("memory\\cardBack.png");
     private static final Map<Integer, Texture> cardMap = Map.of(
             0, new Texture("memory\\card0.png"),
@@ -24,7 +25,8 @@ public class Card extends Actor {
             3, new Texture("memory\\card3.png"),
             4, new Texture("memory\\card4.png"),
             5, new Texture("memory\\card5.png"),
-            6, new Texture("memory\\card6.png")
+            6, new Texture("memory\\card6.png"),
+            7, new Texture("memory\\card7.png")
     );
 
     public Card(int id, float x, float y, float width, float height) {
@@ -36,11 +38,16 @@ public class Card extends Actor {
         this.faceUp.setBounds(x, y, width, height);
         setBounds(x, y, width, height);
         setTouchable(Touchable.enabled);
-        addListener(new ClickListener(){
+        addListener(new InputListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                reveal();
-                System.out.println(id);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                faceDown.setScale(SCALE_ON_CLICK);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                faceDown.setScale(1f);
             }
         });
     }
@@ -76,5 +83,13 @@ public class Card extends Actor {
 
     public boolean isRevealed() {
         return revealed;
+    }
+
+    public float getCenterX() {
+        return getX() + (getWidth()/2f);
+    }
+
+    public float getCenterY() {
+        return getY() + (getHeight()/2f);
     }
 }

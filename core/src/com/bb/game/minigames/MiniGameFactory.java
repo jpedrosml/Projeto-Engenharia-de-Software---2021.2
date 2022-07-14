@@ -29,14 +29,17 @@ public class MiniGameFactory {
     }
 
     private static MiniGameGraphics createChimp(Difficulty difficulty) {
+        //substituir depois
         return new MemoryGraphics(difficulty);
     }
 
     private static MiniGameGraphics createAim(Difficulty difficulty) {
+        //substituir depois
         return new MemoryGraphics(difficulty);
     }
 
     private static MiniGameGraphics createSequence(Difficulty difficulty) {
+        //substituir depois
         return new MemoryGraphics(difficulty);
     }
 

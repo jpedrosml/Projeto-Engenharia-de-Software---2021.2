@@ -12,7 +12,7 @@ public class MemoryLogic {
 
     MemoryLogic(Difficulty difficulty){
         score = 0;
-        cards = Arrays.asList(1,1,2,2,3,3);
+        cards = Arrays.asList(1,1,2,2,3,3,4,4,5,5,6,6,7,7,0,0);
     }
 
     public void reset() {
@@ -23,7 +23,11 @@ public class MemoryLogic {
         return this.cards;
     }
 
-    public int compareCards(int id, int id1) {
-        return 0;
+    public boolean compareCards(int id1, int id2) {
+        return id1 == id2;
+    }
+
+    public int getScore() {
+        return  this.score;
     }
 }
