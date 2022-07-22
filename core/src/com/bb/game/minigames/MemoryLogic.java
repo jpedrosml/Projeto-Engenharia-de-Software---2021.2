@@ -51,7 +51,7 @@ public class MemoryLogic {
     public int compareCards(int id1, int id2) {
         int points = 0;
         if(id1 == id2){
-            points = Math.max((Constants.MAX_POINTS_PER_PLAY - ((int)this.timer) * this.pointsLostPerSec), Constants.MIN_POINTS_PER_PLAY);
+            points = Math.max((Constants.MAX_POINTS_PER_PLAY - (int)(this.timer * this.pointsLostPerSec)), Constants.MIN_POINTS_PER_PLAY);
             this.timer = 0;
             this.cardsLeft -= 2;
         }

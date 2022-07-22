@@ -33,7 +33,6 @@ public class GameManager {
             //exibir a pontuação total
             this.game.setScreen(new Menu(this.game));
         }
-        difficulty = Difficulty.difficultyIncrement(this.difficulty);
         this.currentRound++;
     }
 
@@ -46,6 +45,7 @@ public class GameManager {
     public void notifyConclusion(int miniGameScore){
         this.score += miniGameScore;
         //animação de transição;
+        difficulty = Difficulty.difficultyIncrement(this.difficulty);
         playGame();
     }
 }
