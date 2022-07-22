@@ -1,6 +1,7 @@
 package com.bb.game;
 
 import com.badlogic.gdx.Game;
+import com.bb.game.menu.Menu;
 import com.bb.game.utils.Difficulty;
 import com.bb.game.minigames.MiniGameFactory;
 import com.bb.game.minigames.MiniGameGraphics;
@@ -20,18 +21,19 @@ public class GameManager {
     public GameManager(Game game) {
         this.game = game;
         this.currentRound = 0;
-        difficulty = Difficulty.EASY;
+        this.difficulty = Difficulty.EASY;
     }
 
     public void playGame() {
         if(this.currentRound < ROUNDS_PER_GAME){
-            MiniGameGraphics miniGame = createRandGame(difficulty);
+            MiniGameGraphics miniGame = createRandGame(this.difficulty);
             miniGame.setManager(this);
             this.game.setScreen(miniGame);
         }else{
             //exibir a pontuação total
+            this.game.setScreen(new Menu(this.game));
         }
-        difficulty = Difficulty.difficultyIncrement(difficulty);
+        difficulty = Difficulty.difficultyIncrement(this.difficulty);
         this.currentRound++;
     }
 
@@ -44,5 +46,6 @@ public class GameManager {
     public void notifyConclusion(int miniGameScore){
         this.score += miniGameScore;
         //animação de transição;
+        playGame();
     }
 }

@@ -1,33 +1,43 @@
 package com.bb.game.minigames;
 
-import com.badlogic.gdx.Gdx;
 import com.bb.game.BrainyBeansGraphics;
 import com.bb.game.GameManager;
 
 public abstract class MiniGameGraphics extends BrainyBeansGraphics {
     private int score;
-    private boolean running;
     private GameManager manager;
+    private float timer;
+
+    public final float TIME_LIMIT = 60;
 
     MiniGameGraphics(){
         this.score = 0;
-        this.running = true;
+        this.timer = 0;
+    }
+
+    @Override
+    public void render(float delta) {
+        this.timer += delta;
+        if(this.timer >= TIME_LIMIT){
+            conclude();
+        }
+        super.render(delta);
     }
 
     public void updateScore(int increment){
         this.score += increment;
     }
 
-    public boolean isRunning(){
-        return this.running;
-    }
-
-    public void end(){
-        this.running = false;
-    }
-
     public void setManager(GameManager gameManager){
         this.manager = gameManager;
+    }
+
+    public Float getTimer() {
+        return this.timer;
+    }
+
+    public Integer getScore() {
+        return this.score;
     }
 
     public void conclude(){
