@@ -12,9 +12,9 @@ public class SequenceLogic {
     private List<Integer> sequence;
     private int sequenceSize;
     private int sequenceIterator;
-    private float timer;
     private int colorsLeft;
     private int pointsLostPerSec;
+    private float timer;
 
     SequenceLogic(Difficulty difficulty) {
         this.sequence = new ArrayList<>();
@@ -53,13 +53,17 @@ public class SequenceLogic {
 
     private void createSequence() {
         this.sequence.clear();
-        for(int i = sequenceSize; i > 0; i--) {
+        for(int i = 0; i < sequenceSize; i++) {
             this.sequence.add((int)(Math.random()*sequenceSize));
         }
     }
 
-    public List<Integer> getSequence() {
-        return this.sequence;
+    public int getFromSequence(int i) {
+        return this.sequence.get(i);
+    }
+
+    public int getSequenceSize() {
+        return this.sequenceSize;
     }
 
     public int tryColor(int number) {
@@ -73,6 +77,10 @@ public class SequenceLogic {
         }
 
         return points;
+    }
+
+    public void incrementSequenceSize() {
+        this.sequenceSize++;
     }
 
     public void incrementTimer(float delta) {
