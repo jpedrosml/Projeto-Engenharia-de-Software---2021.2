@@ -116,6 +116,14 @@ public class SequenceGraphics extends MiniGameGraphics {
 
     private void tryColor(final SequenceColor clickedColor) {
         int points = this.logic.tryColor(clickedColor.getId());
+
+        if(points == 0) {
+            this.logic.reset();
+        } else if(this.logic.noColorsLeft()) {
+            this.logic.incrementSequenceSize();
+            this.logic.reset();
+        }
+
         updateScore(points);
     }
 
