@@ -26,9 +26,9 @@ public class SequenceLogic {
     }
 
     public void reset() {
-        this.timer = 0;
-        this.sequenceIterator = 0;
         this.colorsLeft = this.sequenceSize;
+        this.sequenceIterator = 0;
+        this.timer = 0;
         createSequence();
     }
 
@@ -56,6 +56,10 @@ public class SequenceLogic {
         for(int i = 0; i < sequenceSize; i++) {
             this.sequence.add((int)(Math.random()*sequenceSize));
         }
+    }
+
+    public List<Integer> getSequence() {
+        return this.sequence;
     }
 
     public int getFromSequence(int i) {
