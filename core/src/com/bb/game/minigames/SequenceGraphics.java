@@ -119,12 +119,13 @@ public class SequenceGraphics extends MiniGameGraphics {
 
         if(points == 0) {
             this.logic.reset();
-        } else if(this.logic.noColorsLeft()) {
-            this.logic.incrementSequenceSize();
-            this.logic.reset();
+        } else {
+            updateScore(points);
+            if(this.logic.noColorsLeft()) {
+                this.logic.incrementSequenceSize();
+                this.logic.reset();
+            }
         }
-
-        updateScore(points);
     }
 
     @Override
