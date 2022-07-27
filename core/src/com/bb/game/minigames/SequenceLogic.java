@@ -15,6 +15,7 @@ public class SequenceLogic {
     private int colorsLeft;
     private int pointsLostPerSec;
     private float timer;
+    private int difficultyColors;
 
     SequenceLogic(Difficulty difficulty) {
         this.sequence = new ArrayList<>();
@@ -36,14 +37,17 @@ public class SequenceLogic {
         switch (difficulty) {
             case EASY:
                 this.sequenceSize = 2;
+                this.difficultyColors = 3;
                 this.pointsLostPerSec = 200;
                 break;
             case MEDIUM:
                 this.sequenceSize = 3;
+                this.difficultyColors = 4;
                 this.pointsLostPerSec = 100;
                 break;
             case HARD:
                 this.sequenceSize = 4;
+                this.difficultyColors = 5;
                 this.pointsLostPerSec = 50;
                 break;
             default:
@@ -54,7 +58,7 @@ public class SequenceLogic {
     private void createSequence() {
         this.sequence.clear();
         for(int i = 0; i < sequenceSize; i++) {
-            this.sequence.add((int)(Math.random()*sequenceSize));
+            this.sequence.add((int)(Math.random()*difficultyColors));
         }
     }
 
@@ -68,6 +72,10 @@ public class SequenceLogic {
 
     public int getSequenceSize() {
         return this.sequenceSize;
+    }
+
+    public int getDifficultyColors() {
+        return this.difficultyColors;
     }
 
     public int tryColor(int number) {

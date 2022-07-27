@@ -30,20 +30,19 @@ public class MiniGameFactory {
 
     private static MiniGameGraphics createChimp(Difficulty difficulty) {
         //substituir depois
-        return new MemoryGraphics(difficulty);
+        return new SequenceGraphics(difficulty);
     }
 
     private static MiniGameGraphics createAim(Difficulty difficulty) {
         //substituir depois
-        return new MemoryGraphics(difficulty);
+        return new SequenceGraphics(difficulty);
     }
 
     private static MiniGameGraphics createSequence(Difficulty difficulty) {
-        //substituir depois
-        return new MemoryGraphics(difficulty);
+        return new SequenceGraphics(difficulty);
     }
 
     private static MiniGameGraphics createMemory(Difficulty difficulty) {
-        return new MemoryGraphics(difficulty);
+        return new SequenceGraphics(difficulty);
     }
 }

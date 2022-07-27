@@ -9,10 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
 import com.bb.game.utils.Fonts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SequenceGraphics extends MiniGameGraphics {
@@ -36,14 +38,15 @@ public class SequenceGraphics extends MiniGameGraphics {
         this.hand.setRotation(15f);
         this.hand.setTouchable(Touchable.disabled);
 
+        initializeColors();
         setUpStage();
         reset();
     }
 
     private void reset() {
         this.logic.reset();
-        for(int i = 0; i < this.logic.getSequenceSize(); i++) {
-            this.colors.get(i).setId(this.logic.getFromSequence(i));
+        for(int i = 0; i < this.logic.getDifficultyColors(); i++) {
+            this.colors.get(i).setId(i);
         }
     }
 
@@ -109,8 +112,16 @@ public class SequenceGraphics extends MiniGameGraphics {
             throw new IllegalStateException();
         }
 
+        float HIDE_DELAY = 0.5f;
         for(int colorId: this.logic.getSequence()) {
-            // light up each color
+            final SequenceColor clr = this.colors.get(colorId);
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    clr.setBright();
+                }
+            }, HIDE_DELAY);
+            clr.setDark();
         }
     }
 
@@ -123,8 +134,21 @@ public class SequenceGraphics extends MiniGameGraphics {
             updateScore(points);
             if(this.logic.noColorsLeft()) {
                 this.logic.incrementSequenceSize();
-                this.logic.reset();
+                reset();
             }
+        }
+    }
+
+    private void initializeColors() {
+        this.colors = new ArrayList<>();
+        float x = Constants.WORLD_WIDTH * 0.03f;
+        float y = Constants.WORLD_HEIGHT * 0.37f;
+        float width = Constants.WORLD_WIDTH * 0.1f;
+        float height = Constants.WORLD_HEIGHT * 0.27f;
+
+        for(int i = 0; i < this.logic.getDifficultyColors(); i++) {
+            this.colors.add(new SequenceColor(i, x,y,width,height));
+            x = x + Constants.WORLD_WIDTH * 0.14f;
         }
     }
 

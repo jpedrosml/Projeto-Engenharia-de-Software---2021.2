@@ -43,7 +43,6 @@ public class MemoryGraphics extends MiniGameGraphics{
     MemoryGraphics(Difficulty difficulty){
         this.logic = new MemoryLogic(difficulty);
         this.hand = new Image(handTexture);
-        this.hand = new Image(handTexture);
         this.hand.setBounds(HAND_ORIGINAL_POSX, HAND_ORIGINAL_POSY, Constants.WORLD_WIDTH * 0.26f, Constants.WORLD_HEIGHT * 1.3f);
         this.hand.setRotation(15f);
         this.hand.setTouchable(Touchable.disabled);
