@@ -33,6 +33,11 @@ public class SequenceLogic {
         createSequence();
     }
 
+    public void wrongColor() {
+        this.colorsLeft = this.sequenceSize;
+        this.sequenceIterator = 0;
+    }
+
     private void difficultyConfig(Difficulty difficulty) {
         switch (difficulty) {
             case EASY:

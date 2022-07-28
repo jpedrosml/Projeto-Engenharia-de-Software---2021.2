@@ -43,6 +43,7 @@ public class MiniGameFactory {
     }
 
     private static MiniGameGraphics createMemory(Difficulty difficulty) {
+        // return new MemoryGraphics(difficulty);
         return new SequenceGraphics(difficulty);
     }
 }

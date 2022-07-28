@@ -60,10 +60,6 @@ public class SequenceColor extends Actor {
         });
     }
 
-    /* public SequenceColor(float x, float y, float width, float height) {
-        this(0,x,y,width,height);
-    } */
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if(isBright)
@@ -81,7 +77,11 @@ public class SequenceColor extends Actor {
     }
 
     public int getId() {
-        return id;
+        if(this.id < 5) {
+            return this.id;
+        } else {
+            return this.id-5;
+        }
     }
 
     public void setId(int id) {

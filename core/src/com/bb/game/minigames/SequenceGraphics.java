@@ -41,6 +41,7 @@ public class SequenceGraphics extends MiniGameGraphics {
         initializeColors();
         setUpStage();
         reset();
+        showSequence();
     }
 
     private void reset() {
@@ -53,7 +54,6 @@ public class SequenceGraphics extends MiniGameGraphics {
     private void setUpStage() {
         setUpActors();
         setUpText();
-        showSequence();
         getStage().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -112,16 +112,27 @@ public class SequenceGraphics extends MiniGameGraphics {
             throw new IllegalStateException();
         }
 
-        float HIDE_DELAY = 0.5f;
-        for(int colorId: this.logic.getSequence()) {
+        float HIDE_DELAY_BRIGHT = 0.2f;
+        float HIDE_DELAY_DARK = 0.4f;
+        float incremento = 0.4f;
+
+        for(int i = 0; i < this.logic.getSequenceSize(); i++) {
+            int colorId = this.logic.getFromSequence(i);
             final SequenceColor clr = this.colors.get(colorId);
+
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     clr.setBright();
                 }
-            }, HIDE_DELAY);
-            clr.setDark();
+            }, HIDE_DELAY_BRIGHT + incremento * i);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    clr.setDark();
+                }
+            }, HIDE_DELAY_DARK + incremento * i);
         }
     }
 
@@ -129,13 +140,25 @@ public class SequenceGraphics extends MiniGameGraphics {
         int points = this.logic.tryColor(clickedColor.getId());
 
         if(points == 0) {
-            this.logic.reset();
+            this.logic.wrongColor();
+            showSequence();
         } else {
-            updateScore(points);
-            if(this.logic.noColorsLeft()) {
-                this.logic.incrementSequenceSize();
-                reset();
-            }
+            float HIDE_DELAY_END_SEQUENCE = 0.4f;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    endSequence(points);
+                }
+            }, HIDE_DELAY_END_SEQUENCE);
+        }
+    }
+
+    private void endSequence(int points) {
+        updateScore(points);
+        if(this.logic.noColorsLeft()) {
+            this.logic.incrementSequenceSize();
+            reset();
+            showSequence();
         }
     }
 
