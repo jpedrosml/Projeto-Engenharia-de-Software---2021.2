@@ -19,19 +19,21 @@ public class ButtonNumber extends Actor{
     private final float SCALE_ON_CLICK = 0.95f;
     private static final Texture cardBack = new Texture("memory\\cardBack.png");
     private static final Map<Integer, Texture> buttonMap = Map.of(
-           /* 0, new Texture("memory\\card0.png"),
-            1, new Texture("memory\\card1.png"),
-            2, new Texture("memory\\card2.png"),
-            3, new Texture("memory\\card3.png"),
-            4, new Texture("memory\\card4.png"),
-            5, new Texture("memory\\card5.png"),
-            6, new Texture("memory\\card6.png"),
-            7, new Texture("memory\\card7.png")*/
+            0, new Texture("chimp\\number1.png"),
+            1, new Texture("chimp\\number1.png"),
+            2, new Texture("chimp\\number2.png"),
+            3, new Texture("chimp\\number3.png"),
+            4, new Texture("chimp\\number4.png"),
+            5, new Texture("chimp\\number5.png"),
+            6, new Texture("chimp\\number6.png"),
+            7, new Texture("chimp\\number7.png"),
+            8, new Texture("chimp\\number8.png"),
+            9, new Texture("chimp\\number9.png")
     );
 
     public ButtonNumber(int id, float x, float y, float width, float height) {
         this.id = id;
-        this.revealed = false;
+        this.revealed = true;
         this.hiddenButton = new Sprite(cardBack);
         this.hiddenButton.setBounds(x, y, width, height);
         this.visibleButton = new Sprite(buttonMap.get(this.id));
@@ -59,9 +61,10 @@ public class ButtonNumber extends Actor{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if(revealed)
-            visibleButton.draw(batch);
-        else
             hiddenButton.draw(batch);
+
+        else
+            visibleButton.draw(batch);
     }
 
     public void reveal(){
