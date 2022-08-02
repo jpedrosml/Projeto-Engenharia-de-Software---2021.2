@@ -12,14 +12,13 @@ import java.util.Map;
 
 public class SequenceColor extends Actor {
 
-    private int id;
     private Sprite faceDark;
     private Sprite faceBright;
+    private int id;
     private boolean isBright;
 
     private final float SCALE_ON_CLICK = 0.95f;
     private final float NORMAL_SCALE = 1f;
-
 
     private static final Map<Integer, Texture> colorMap = Map.of(
         0, new Texture("sequence\\images\\dark-red.png"),
@@ -95,5 +94,4 @@ public class SequenceColor extends Actor {
     public float getCenterY() {
         return getY() + (getHeight()/2f);
     }
-
 }

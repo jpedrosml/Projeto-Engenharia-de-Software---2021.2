@@ -1,5 +1,9 @@
 package com.bb.game.minigames;
 
+import static com.bb.game.utils.Difficulty.EASY;
+import static com.bb.game.utils.Difficulty.HARD;
+import static com.bb.game.utils.Difficulty.MEDIUM;
+
 import com.bb.game.utils.Difficulty;
 
 public class MiniGameFactory {
