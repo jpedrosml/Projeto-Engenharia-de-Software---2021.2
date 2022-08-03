@@ -111,13 +111,6 @@ public class MemoryGraphics extends MiniGameGraphics{
     @Override
     public void render(float delta) {
         this.logic.incrementTimer(delta);
-        getTimerIndicator().setText(String.format("%.0f", TIME_LIMIT - getTimer()));
-        if(getTimer()>TIME_LIMIT - 10f){
-            getTimerIndicator().setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.RED));
-        }else if(getTimer()>TIME_LIMIT/2f){
-            getTimerIndicator().setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.YELLOW));
-        }
-        getScoreIndicator().setText(getScore().toString());
         super.render(delta);
     }
 
