@@ -24,11 +24,10 @@ public abstract class MiniGameGraphics extends BrainyBeansGraphics {
     @Override
     public void render(float delta) {
         this.timer += delta;
+        this.timerIndicator.setText(String.format("%.0f", TIME_LIMIT - this.timer));
         if(this.timer >= TIME_LIMIT){
             conclude();
-        }
-        this.timerIndicator.setText(String.format("%.0f", TIME_LIMIT - this.timer));
-        if(this.timer > TIME_LIMIT - 10f){
+        } else if(this.timer > TIME_LIMIT - 10f){
             this.timerIndicator.setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.RED));
         }else if(this.timer > TIME_LIMIT/2f){
             this.timerIndicator.setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.YELLOW));
