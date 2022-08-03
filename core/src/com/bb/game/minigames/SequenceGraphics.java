@@ -36,7 +36,7 @@ public class SequenceGraphics extends MiniGameGraphics {
             1, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bongo.mp3")),
             2, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\keyboard.mp3")),
             3, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\trumpet.mp3")),
-            4, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bass.mp3")),
+            4, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bass2.wav")),
             5, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\ukulele.mp3"))
     );
 
