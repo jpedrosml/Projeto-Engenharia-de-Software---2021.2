@@ -49,8 +49,8 @@ public class ChimpLogic {
     public int tryButton(int button, int nextButton) {
         int points = 0;
 
-/*        for(int i = 0; i < this.buttons.size(); i++) {
-            if(buttons.indexOf(i) > buttons.indexOf(i + 1)){
+/*        for (int i = 0; i < this.buttons.size() - 3 + 1; ++i) {
+            if (this.buttons.indexOf(i) == this.buttons.indexOf(i + 2) - 2) {
                 this.buttons.remove(i);
             }
         }*/
