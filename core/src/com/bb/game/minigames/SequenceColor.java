@@ -22,15 +22,15 @@ public class SequenceColor extends Actor {
 
     private static final Map<Integer, Texture> colorMap = Map.of(
         0, new Texture("sequence\\images\\dark-red.png"),
-        1, new Texture("sequence\\images\\dark-green.png"),
-        2, new Texture("sequence\\images\\dark-blue.png"),
+        1, new Texture("sequence\\images\\green_idle.png"),
+        2, new Texture("sequence\\images\\blue_idle.png"),
         3, new Texture("sequence\\images\\dark-yellow.png"),
-        4, new Texture("sequence\\images\\dark-purple.png"),
+        4, new Texture("sequence\\images\\purple_idle.png"),
         5, new Texture("sequence\\images\\bright-red.png"),
         6, new Texture("sequence\\images\\bright-green.png"),
-        7, new Texture("sequence\\images\\bright-blue.png"),
+        7, new Texture("sequence\\images\\blue_highlight.png"),
         8, new Texture("sequence\\images\\bright-yellow.png"),
-        9, new Texture("sequence\\images\\bright-purple.png")
+        9, new Texture("sequence\\images\\purple_highlight.png")
     );
 
     public SequenceColor(int id, float x, float y, float width, float height) {
