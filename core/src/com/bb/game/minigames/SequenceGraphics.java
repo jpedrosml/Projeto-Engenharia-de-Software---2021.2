@@ -21,11 +21,11 @@ import java.util.List;
 // Classe que realiza a parte visual do jogo da sequência.
 public class SequenceGraphics extends MiniGameGraphics {
 
-    // Lista das cores disponíveis.
-    private List<SequenceColor> colors;
-
     // Instância da classe que contém a parte lógica do jogo.
     private SequenceLogic logic;
+
+    // Lista das cores disponíveis.
+    private List<SequenceColor> colors;
 
     // Variável que guarda a textura da imagem de fundo.
     private static final Texture backgroundTexture = new Texture("sequence\\stage.png");
