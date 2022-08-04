@@ -4,48 +4,67 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
 
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
 import com.bb.game.utils.Fonts;
+import static com.bb.game.utils.Volume.SFX_VOLUME;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+// Classe que realiza a parte visual do jogo da sequência.
 public class SequenceGraphics extends MiniGameGraphics {
+
+    // Lista das cores disponíveis.
     private List<SequenceColor> colors;
+
+    // Instância da classe que contém a parte lógica do jogo.
     private SequenceLogic logic;
+
+    // Rótulo da pontuação.
     private Label scoreIndicator;
+
+    // Rótulo do tempo.
     private Label timerIndicator;
 
-    private static final Texture backgroundTexture = new Texture("sequence\\images\\stage.png");
-    private static final Texture panelTexture = new Texture("memory\\panel.png");
-    private static final Texture crowdTexture = new Texture("sequence\\images\\crowd.png");
-    private static final List<Float> colorsDistance = List.of(0.3f, 0.2f, 0.15f);
 
-    private static final Map<Integer, Sound> sounds = Map.of(
-            0, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\singer.mp3")),
-            1, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bongo.mp3")),
-            2, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\keyboard.mp3")),
-            3, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bass3.wav")),
-            4, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bass2.wav")),
-            5, Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\ukulele.mp3"))
+    // Variável que guarda a textura da imagem de fundo.
+    private static final Texture backgroundTexture = new Texture("sequence\\images\\stage.png");
+
+    // Variável que guarda a textura do painel.
+    private static final Texture panelTexture = new Texture("memory\\panel.png");
+
+    // Variável que guarda a textura da plateia.
+    private static final Texture crowdTexture = new Texture("sequence\\images\\crowd.png");
+
+    // Lista que guarda as distâncias entre as cores para cada quantidade de cores possível.
+    private static final List<Float> colorsDistance = List.of(0.32f, 0.213f, 0.16f);
+
+    // Lista que guarda os sons de cada instrumento.
+    private static final List<Sound> soundList = List.of(
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\keyboard.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\guitar.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\singer.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bongo.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\trumpet.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\ukulele.mp3"))
     );
 
     SequenceGraphics(Difficulty difficulty) {
         this.logic = new SequenceLogic(difficulty);
-
         initializeColors();
         setUpStage();
         reset();
+        disableTouch();
         showSequence();
     }
 
@@ -72,20 +91,23 @@ public class SequenceGraphics extends MiniGameGraphics {
 
     private void setUpActors() {
         Actor background = new Image(backgroundTexture);
+        background.setTouchable(Touchable.disabled);
         background.setBounds(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
         getStage().addActor(background);
-
-        Actor panel = new Image(panelTexture);
-        panel.setBounds(Constants.WORLD_WIDTH * 0.84f, Constants.WORLD_HEIGHT * 0.59f, Constants.WORLD_WIDTH * 0.19f, Constants.WORLD_HEIGHT * 0.41f);
-        getStage().addActor(panel);
-
-        Actor crowd = new Image(crowdTexture);
-        crowd.setBounds(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
-        getStage().addActor(crowd);
 
         for(Actor color: this.colors) {
             getStage().addActor(color);
         }
+
+        Actor panel = new Image(panelTexture);
+        panel.setTouchable(Touchable.disabled);
+        panel.setBounds(Constants.WORLD_WIDTH * 0.84f, Constants.WORLD_HEIGHT * 0.59f, Constants.WORLD_WIDTH * 0.19f, Constants.WORLD_HEIGHT * 0.41f);
+        getStage().addActor(panel);
+
+        Actor crowd = new Image(crowdTexture);
+        crowd.setTouchable(Touchable.disabled);
+        crowd.setBounds(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
+        getStage().addActor(crowd);
     }
 
     private void setUpText() {
@@ -117,10 +139,10 @@ public class SequenceGraphics extends MiniGameGraphics {
     private void initializeColors() {
         this.colors = new ArrayList<>();
 
-        float x = Constants.WORLD_WIDTH * 0.15f;
-        float y = Constants.WORLD_HEIGHT * 0.1f;
-        float width = Constants.WORLD_WIDTH * 0.1f;
-        float height = Constants.WORLD_HEIGHT * 0.25f;
+        float x = Constants.WORLD_WIDTH * 0.09f;
+        float y = Constants.WORLD_HEIGHT * 0.05f;
+        float width = Constants.WORLD_WIDTH * 0.2f;
+        float height = Constants.WORLD_HEIGHT * 0.5f;
 
         for(int i = 0; i < this.logic.getDifficultyColors(); i++) {
             this.colors.add(new SequenceColor(i, x,y,width,height));
@@ -129,12 +151,6 @@ public class SequenceGraphics extends MiniGameGraphics {
     }
 
     private void showSequence() {
-        if(this.logic.getSequence() == null) {
-            throw new IllegalStateException();
-        }
-
-        disableTouch();
-
         float HIDE_DELAY_BRIGHT = 0.5f;
         float HIDE_DELAY_DARK = 1f;
         float HIDE_DELAY_INCREMENT = 1f;
@@ -148,7 +164,7 @@ public class SequenceGraphics extends MiniGameGraphics {
                 @Override
                 public void run() {
                     clr.setBright();
-                    sounds.get(colorId).play();
+                    soundList.get(colorId).play(SFX_VOLUME);
                 }
             }, HIDE_DELAY_BRIGHT + HIDE_DELAY_INCREMENT * i);
 
@@ -171,11 +187,18 @@ public class SequenceGraphics extends MiniGameGraphics {
 
     private void tryColor(final SequenceColor clickedColor) {
         int points = this.logic.tryColor(clickedColor.getId());
-        sounds.get(clickedColor.getId()).play();
+        soundList.get(clickedColor.getId()).play(SFX_VOLUME);
 
         if(points == 0) {
             this.logic.wrongColor();
-            showSequence();
+            disableTouch();
+            float HIDE_DELAY_END_SEQUENCE = 0.5f;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    showSequence();
+                }
+            }, HIDE_DELAY_END_SEQUENCE);
         } else {
             float HIDE_DELAY_END_SEQUENCE = 2f;
             Timer.schedule(new Timer.Task() {
@@ -190,9 +213,11 @@ public class SequenceGraphics extends MiniGameGraphics {
     private void endSequence(int points) {
         updateScore(points);
         if(this.logic.noColorsLeft()) {
-            sounds.get(5).play();
+            soundList.get(5).play(SFX_VOLUME);
             this.logic.incrementSequenceSize();
             reset();
+            disableTouch();
+
             float HIDE_DELAY_END_SEQUENCE = 1f;
             Timer.schedule(new Timer.Task() {
                 @Override

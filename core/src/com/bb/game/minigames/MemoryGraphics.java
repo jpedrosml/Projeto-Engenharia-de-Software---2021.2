@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
 import com.bb.game.utils.Fonts;
+import static com.bb.game.utils.Volume.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class MemoryGraphics extends MiniGameGraphics{
         this.hand.setRotation(15f);
         this.hand.setTouchable(Touchable.disabled);
         bgmusic.play();
-        bgmusic.setVolume(0.2f);
+        bgmusic.setVolume(MUSIC_VOLUME);
         bgmusic.setLooping(true);
         initializeCards();
         setUpStage();
@@ -171,7 +172,7 @@ public class MemoryGraphics extends MiniGameGraphics{
         } else {
             updateScore(points);
             if(this.logic.noCardsLeft()) {
-                sfx2.play(0.5f);
+                sfx2.play(SFX_VOLUME);
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -179,7 +180,7 @@ public class MemoryGraphics extends MiniGameGraphics{
                     }
                 }, HIDE_DELAY);
             } else {
-                sfx1.play(0.5f);
+                sfx1.play(SFX_VOLUME);
             }
         }
     }
