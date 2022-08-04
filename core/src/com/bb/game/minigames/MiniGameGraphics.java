@@ -1,6 +1,9 @@
 package com.bb.game.minigames;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bb.game.BrainyBeansGraphics;
 import com.bb.game.GameManager;
@@ -15,6 +18,7 @@ public abstract class MiniGameGraphics extends BrainyBeansGraphics {
     private Label timerIndicator;
 
     public final float TIME_LIMIT = 60;
+    private static final Texture panelTexture = new Texture("memory\\panel.png");
 
     MiniGameGraphics(){
         this.score = 0;
@@ -41,6 +45,9 @@ public abstract class MiniGameGraphics extends BrainyBeansGraphics {
         final float FONT_SCALE = 1.5f;
         final Label.LabelStyle STYLE_1 = new Label.LabelStyle(Fonts.COMIC_NEUE, PALE_YELLOW);
 
+        Actor panel = new Image(panelTexture);
+        panel.setBounds(Constants.WORLD_WIDTH * 0.84f, Constants.WORLD_HEIGHT * 0.59f, Constants.WORLD_WIDTH * 0.19f, Constants.WORLD_HEIGHT * 0.41f);
+        getStage().addActor(panel);
         Label scoreText = new Label("Score: ", STYLE_1);
         scoreText.setPosition(Constants.WORLD_WIDTH*0.86f, Constants.WORLD_HEIGHT*0.85f);
         scoreText.setFontScale(FONT_SCALE);

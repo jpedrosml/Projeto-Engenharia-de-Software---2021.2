@@ -29,7 +29,6 @@ public class MemoryGraphics extends MiniGameGraphics{
     private final float HAND_ORIGINAL_POSY = Constants.WORLD_HEIGHT * (-0.72f);
     private static final Texture handTexture = new Texture("memory\\arm.png");
     private static final Texture backgroundTexture = new Texture("memory\\table.png");
-    private static final Texture panelTexture = new Texture("memory\\panel.png");
 
 
     MemoryGraphics(Difficulty difficulty){
@@ -83,9 +82,6 @@ public class MemoryGraphics extends MiniGameGraphics{
             getStage().addActor(card);
         }
         getStage().addActor(this.hand);
-        Actor panel = new Image(panelTexture);
-        panel.setBounds(Constants.WORLD_WIDTH * 0.84f, Constants.WORLD_HEIGHT * 0.59f, Constants.WORLD_WIDTH * 0.19f, Constants.WORLD_HEIGHT * 0.41f);
-        getStage().addActor(panel);
     }
 
     private void initializeCards() {
