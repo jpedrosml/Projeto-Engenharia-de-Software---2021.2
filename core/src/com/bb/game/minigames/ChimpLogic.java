@@ -13,15 +13,19 @@ public class ChimpLogic {
     private int buttonsLeft;
     private float timer;
     private int pointsLostPerSec;
+    private int iterator;
+
 
     ChimpLogic(Difficulty difficulty) {
         difficultyConfig(difficulty);
         this.buttonsLeft = this.buttons.size();
+        this.iterator = 0;
     }
 
     public void reset() {
         this.timer = 0;
         this.buttonsLeft = this.buttons.size();
+        this.iterator = 0;
     }
 
     private void difficultyConfig(Difficulty difficulty) {
@@ -46,22 +50,28 @@ public class ChimpLogic {
         }
     }
 
-    public int tryButton(int button, int nextButton) {
+    public int tryButton(int button) {
         int points = 0;
 
-/*        for (int i = 0; i < this.buttons.size() - 3 + 1; ++i) {
-            if (this.buttons.indexOf(i) == this.buttons.indexOf(i + 2) - 2) {
-                this.buttons.remove(i);
-            }
-        }*/
-
-        if(nextButton == button) {
+        if(button == buttons.get(iterator)) {
             points = Math.max((Constants.MAX_POINTS_PER_PLAY - (int)(this.timer * this.pointsLostPerSec)), Constants.MIN_POINTS_PER_PLAY);
             this.timer = 0;
             this.buttonsLeft -= 1;
+            this.iterator += 1;
         }
         return points;
     }
+
+/*    public boolean isSequence() {
+        boolean flag = true;
+        for (int i = 0; i < this.buttons.size() - 1; i++) {
+            if (this.buttons.indexOf(i) < this.buttons.indexOf(i + 1)) {
+                this.buttons.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }*/
 
     public void incrementTimer(float delta) {
         this.timer += delta;

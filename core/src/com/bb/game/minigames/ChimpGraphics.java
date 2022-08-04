@@ -150,14 +150,14 @@ public class ChimpGraphics extends MiniGameGraphics{
     private void makePlay(final ButtonNumber clickedButton){
         final ButtonNumber lcc = this.lastClickedButton;
         this.lastClickedButton = null;
-        int points = this.logic.tryButton(lcc.getId(), clickedButton.getId());
+        int points = this.logic.tryButton(lcc.getId());
         float HIDE_DELAY = 0.25f;
         if(points == 0){
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    lcc.hide();
-                    clickedButton.hide();
+                    lcc.remove();
+                    clickedButton.remove();
                 }
             }, HIDE_DELAY);
         } else {
