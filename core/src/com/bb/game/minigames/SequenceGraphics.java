@@ -2,7 +2,6 @@ package com.bb.game.minigames;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
@@ -10,12 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
-import com.bb.game.utils.Fonts;
 import static com.bb.game.utils.Volume.SFX_VOLUME;
 
 import java.util.ArrayList;
@@ -30,35 +27,29 @@ public class SequenceGraphics extends MiniGameGraphics {
     // Instância da classe que contém a parte lógica do jogo.
     private SequenceLogic logic;
 
-    // Rótulo da pontuação.
-    private Label scoreIndicator;
-
-    // Rótulo do tempo.
-    private Label timerIndicator;
-
-
     // Variável que guarda a textura da imagem de fundo.
-    private static final Texture backgroundTexture = new Texture("sequence\\images\\stage.png");
+    private static final Texture backgroundTexture = new Texture("sequence\\stage.png");
 
     // Variável que guarda a textura do painel.
     private static final Texture panelTexture = new Texture("memory\\panel.png");
 
     // Variável que guarda a textura da plateia.
-    private static final Texture crowdTexture = new Texture("sequence\\images\\crowd.png");
+    private static final Texture crowdTexture = new Texture("sequence\\crowd.png");
 
     // Lista que guarda as distâncias entre as cores para cada quantidade de cores possível.
     private static final List<Float> colorsDistance = List.of(0.32f, 0.213f, 0.16f);
 
+
     // Lista que guarda os sons de cada instrumento.
     private static final List<Sound> soundList = List.of(
-            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\keyboard.mp3")),
-            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\guitar.mp3")),
-            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\singer.mp3")),
-            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\bongo.mp3")),
-            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\trumpet.mp3")),
-            Gdx.audio.newSound(Gdx.files.internal("sequence\\music\\ukulele.mp3"))
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\keyboard.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\guitar.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\singer.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\bongo.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("sequence\\trumpet.mp3"))
     );
 
+    // Inicializa a classe de lógica e chama funções para inicializar o jogo.
     SequenceGraphics(Difficulty difficulty) {
         this.logic = new SequenceLogic(difficulty);
         initializeColors();
@@ -68,6 +59,7 @@ public class SequenceGraphics extends MiniGameGraphics {
         showSequence();
     }
 
+    // Chama a função de reset da classe de lógica e coloca os IDs das cores que estarão no jogo.
     private void reset() {
         this.logic.reset();
         for(int i = 0; i < this.logic.getDifficultyColors(); i++) {
@@ -75,6 +67,9 @@ public class SequenceGraphics extends MiniGameGraphics {
         }
     }
 
+    // Função que inicializa o cenário do jogo. Chama as funções para inicializar os textos e atores,
+    // e após adiciona um listener ao cenário que notifica quando o usuário tocar em uma cor e
+    // então chama a função que verifica a tentativa do usuário.
     private void setUpStage() {
         setUpActors();
         setUpText();
@@ -89,6 +84,7 @@ public class SequenceGraphics extends MiniGameGraphics {
         });
     }
 
+    // Inicializa os atores, que são os objetos do jogo.
     private void setUpActors() {
         Actor background = new Image(backgroundTexture);
         background.setTouchable(Touchable.disabled);
@@ -110,32 +106,7 @@ public class SequenceGraphics extends MiniGameGraphics {
         getStage().addActor(crowd);
     }
 
-    private void setUpText() {
-        final Color PALE_YELLOW = new Color(243f/255f, 248f/255f, 146f/255f, 1);
-        final float FONT_SCALE = 1.5f;
-        final Label.LabelStyle STYLE_1 = new Label.LabelStyle(Fonts.COMIC_NEUE, PALE_YELLOW);
-
-        Label scoreText = new Label("Score: ", STYLE_1);
-        scoreText.setPosition(Constants.WORLD_WIDTH*0.86f, Constants.WORLD_HEIGHT*0.85f);
-        scoreText.setFontScale(FONT_SCALE);
-        getStage().addActor(scoreText);
-
-        Label timeLeftText = new Label("Time left: ", STYLE_1);
-        timeLeftText.setPosition(Constants.WORLD_WIDTH*0.86f, Constants.WORLD_HEIGHT*0.75f);
-        timeLeftText.setFontScale(FONT_SCALE);
-        getStage().addActor(timeLeftText);
-
-        this.scoreIndicator = new Label(getScore().toString(), new Label.LabelStyle(Fonts.COMIC_NEUE, Color.WHITE));
-        this.scoreIndicator.setPosition(scoreText.getX() + (scoreText.getWidth() * FONT_SCALE), scoreText.getY());
-        this.scoreIndicator.setFontScale(FONT_SCALE);
-        getStage().addActor(this.scoreIndicator);
-
-        this.timerIndicator = new Label(String.format("%.0f", getTimer()), new Label.LabelStyle(Fonts.COMIC_NEUE, Color.GREEN));
-        this.timerIndicator.setPosition(timeLeftText.getX() + (timeLeftText.getWidth() * FONT_SCALE), timeLeftText.getY());
-        this.timerIndicator.setFontScale(FONT_SCALE);
-        getStage().addActor(this.timerIndicator);
-    }
-
+    // Inicializa cada cor do jogo, variando pelo número de cores da dificuldade.
     private void initializeColors() {
         this.colors = new ArrayList<>();
 
@@ -150,7 +121,10 @@ public class SequenceGraphics extends MiniGameGraphics {
         }
     }
 
+    // Função que mostra a sequência de cores para o usuário, uma cor e seu som por vez.
     private void showSequence() {
+
+        // Delays a serem utilizados na execução das ações para que não ocorra sobreposição de uma sobre outra.
         float HIDE_DELAY_BRIGHT = 0.5f;
         float HIDE_DELAY_DARK = 1f;
         float HIDE_DELAY_INCREMENT = 1f;
@@ -160,6 +134,7 @@ public class SequenceGraphics extends MiniGameGraphics {
             int colorId = this.logic.getFromSequence(i);
             final SequenceColor clr = this.colors.get(colorId);
 
+            // Destaca a cor da sequência e toca o seu som após o delay.
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -168,15 +143,17 @@ public class SequenceGraphics extends MiniGameGraphics {
                 }
             }, HIDE_DELAY_BRIGHT + HIDE_DELAY_INCREMENT * i);
 
+            // Volta a imagem da cor sem destaque após o delay.
+            TOTAL_DELAY = HIDE_DELAY_DARK + HIDE_DELAY_INCREMENT * i;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     clr.setDark();
                 }
-            }, HIDE_DELAY_DARK + HIDE_DELAY_INCREMENT * i);
-            TOTAL_DELAY = HIDE_DELAY_DARK + HIDE_DELAY_INCREMENT * i;
+            }, TOTAL_DELAY);
         }
 
+        // Habilita as cores a serem tocadas após a sequência ter sido mostrada.
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -185,80 +162,94 @@ public class SequenceGraphics extends MiniGameGraphics {
         }, TOTAL_DELAY);
     }
 
+    // Função que verifica a tentativa do usuário ao tocar uma cor.
     private void tryColor(final SequenceColor clickedColor) {
         soundList.get(clickedColor.getId()).play(SFX_VOLUME);
         int points = this.logic.tryColor(clickedColor.getId());
 
+        // Se o usuário escolheu a cor errada e não ganhou nenhum ponto, chama a função que atualiza
+        // os valores associados à sequência para contabilizar o erro, desabilita as cores de serem tocadas
+        // para mostrar a sequência de cores novamente após um delay.
         if(points == 0) {
-            this.logic.wrongColor();
             disableTouch();
-            float HIDE_DELAY_END_SEQUENCE = 0.5f;
+            this.logic.wrongColor();
+            float HIDE_DELAY_END_SEQUENCE1 = 0.5f;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     showSequence();
                 }
-            }, HIDE_DELAY_END_SEQUENCE);
+            }, HIDE_DELAY_END_SEQUENCE1);
         }
+        // Se o usuário acertou a cor da sequência, chama a função que realiza as ações necessárias
+        // ao usuário terminar uma sequência.
         else {
-            float HIDE_DELAY_END_SEQUENCE = 2f;
+            if(this.logic.noColorsLeft())
+                disableTouch();
+            float HIDE_DELAY_END_SEQUENCE2 = 2f;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    if(logic.noColorsLeft())
-                        highlightAllColors();
                     endSequence(points);
                 }
-            }, HIDE_DELAY_END_SEQUENCE);
+            }, HIDE_DELAY_END_SEQUENCE2);
         }
     }
 
+    // Função chamada quando o usuário termina a sequência. Chama funções para atualizar o placar,
+    // destacar todas as cores, tocar todos os sons da dificuldade, incrementar o tamanho da sequência,
+    // resetar a sequência para então chamar as funções que retornam todas as cores
+    // para a sua imagem normal e mostram a próxima sequência, após o delay.
     private void endSequence(int points) {
         updateScore(points);
         if(this.logic.noColorsLeft()) {
-            // soundList.get(5).play(SFX_VOLUME);
+            highlightAllColors();
             playAllSounds();
             this.logic.incrementSequenceSize();
             reset();
-            disableTouch();
 
-            float HIDE_DELAY_END_SEQUENCE = 1f;
+            float HIDE_DELAY_END_SEQUENCE3 = 1f;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     darkenAllColors();
                     showSequence();
                 }
-            }, HIDE_DELAY_END_SEQUENCE);
+            }, HIDE_DELAY_END_SEQUENCE3);
         }
     }
 
+    // Habilita todas as cores a serem tocadas pelo usuário.
     private void enableTouch() {
         for(SequenceColor color : this.colors) {
             color.setTouchable(Touchable.enabled);
         }
     }
 
+    // Desabilita todas as cores de serem tocadas pelo usuário.
     private void disableTouch() {
         for(SequenceColor color : this.colors) {
             color.setTouchable(Touchable.disabled);
         }
     }
 
+    // Destaca todas as cores.
     private void highlightAllColors() {
         for(SequenceColor color : this.colors) {
             color.setBright();
         }
     }
 
+    // Retorna todas as cores para sua imagem normal.
     private void darkenAllColors() {
         for(SequenceColor color : this.colors) {
             color.setDark();
         }
     }
 
+    // Toca os sons de todos os instrumentos disponíveis na dificuldade atual.
     private void playAllSounds() {
-        for(int i = 0; i < soundList.size()-1; i++) {
+        for(int i = 0; i < this.logic.getDifficultyColors(); i++) {
             soundList.get(i).play(SFX_VOLUME);
         }
     }
@@ -266,16 +257,6 @@ public class SequenceGraphics extends MiniGameGraphics {
     @Override
     public void render(float delta) {
         this.logic.incrementTimer(delta);
-        this.timerIndicator.setText(String.format("%.0f", TIME_LIMIT - getTimer()));
-
-        if(getTimer()>TIME_LIMIT - 10f){
-            timerIndicator.setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.RED));
-        }else if(getTimer()>TIME_LIMIT/2f){
-            timerIndicator.setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.YELLOW));
-        }
-
-        this.scoreIndicator.setText(getScore().toString());
         super.render(delta);
     }
-
 }
