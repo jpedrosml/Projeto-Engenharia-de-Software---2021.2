@@ -186,8 +186,8 @@ public class SequenceGraphics extends MiniGameGraphics {
     }
 
     private void tryColor(final SequenceColor clickedColor) {
-        int points = this.logic.tryColor(clickedColor.getId());
         soundList.get(clickedColor.getId()).play(SFX_VOLUME);
+        int points = this.logic.tryColor(clickedColor.getId());
 
         if(points == 0) {
             this.logic.wrongColor();
@@ -199,11 +199,14 @@ public class SequenceGraphics extends MiniGameGraphics {
                     showSequence();
                 }
             }, HIDE_DELAY_END_SEQUENCE);
-        } else {
+        }
+        else {
             float HIDE_DELAY_END_SEQUENCE = 2f;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
+                    if(logic.noColorsLeft())
+                        highlightAllColors();
                     endSequence(points);
                 }
             }, HIDE_DELAY_END_SEQUENCE);
@@ -213,7 +216,8 @@ public class SequenceGraphics extends MiniGameGraphics {
     private void endSequence(int points) {
         updateScore(points);
         if(this.logic.noColorsLeft()) {
-            soundList.get(5).play(SFX_VOLUME);
+            // soundList.get(5).play(SFX_VOLUME);
+            playAllSounds();
             this.logic.incrementSequenceSize();
             reset();
             disableTouch();
@@ -222,6 +226,7 @@ public class SequenceGraphics extends MiniGameGraphics {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
+                    darkenAllColors();
                     showSequence();
                 }
             }, HIDE_DELAY_END_SEQUENCE);
@@ -237,6 +242,24 @@ public class SequenceGraphics extends MiniGameGraphics {
     private void disableTouch() {
         for(SequenceColor color : this.colors) {
             color.setTouchable(Touchable.disabled);
+        }
+    }
+
+    private void highlightAllColors() {
+        for(SequenceColor color : this.colors) {
+            color.setBright();
+        }
+    }
+
+    private void darkenAllColors() {
+        for(SequenceColor color : this.colors) {
+            color.setDark();
+        }
+    }
+
+    private void playAllSounds() {
+        for(int i = 0; i < soundList.size()-1; i++) {
+            soundList.get(i).play(SFX_VOLUME);
         }
     }
 
