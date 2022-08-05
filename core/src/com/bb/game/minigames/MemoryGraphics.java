@@ -3,19 +3,16 @@ package com.bb.game.minigames;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
-import com.bb.game.utils.Fonts;
 import static com.bb.game.utils.Volume.*;
 
 import java.util.ArrayList;
@@ -27,17 +24,15 @@ public class MemoryGraphics extends MiniGameGraphics{
     private MemoryLogic logic;
     private Image hand;
     private Card lastClickedCard;
-    private Label scoreIndicator;
-    private Label timerIndicator;
 
     private final float HAND_ANIMATION_DURATION = 0.25f;
     private final float HAND_ORIGINAL_POSX = Constants.WORLD_WIDTH * 0.95f;
     private final float HAND_ORIGINAL_POSY = Constants.WORLD_HEIGHT * (-0.72f);
     private static final Texture handTexture = new Texture("memory\\arm.png");
     private static final Texture backgroundTexture = new Texture("memory\\table.png");
-    private static final Texture panelTexture = new Texture("memory\\panel.png");
-    private static final Sound sfx1 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx1.wav"));
-    private static final Sound sfx2 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx2.wav"));
+
+    private static final Sound sfx1 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx2.wav"));
+    private static final Sound sfx2 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx1.wav"));
     private static final Music bgmusic = Gdx.audio.newMusic(Gdx.files.internal("memory\\bgmusic.mp3"));
 
 
@@ -47,9 +42,11 @@ public class MemoryGraphics extends MiniGameGraphics{
         this.hand.setBounds(HAND_ORIGINAL_POSX, HAND_ORIGINAL_POSY, Constants.WORLD_WIDTH * 0.26f, Constants.WORLD_HEIGHT * 1.3f);
         this.hand.setRotation(15f);
         this.hand.setTouchable(Touchable.disabled);
+
         bgmusic.play();
         bgmusic.setVolume(MUSIC_VOLUME);
         bgmusic.setLooping(true);
+
         initializeCards();
         setUpStage();
         reset();
@@ -95,9 +92,6 @@ public class MemoryGraphics extends MiniGameGraphics{
             getStage().addActor(card);
         }
         getStage().addActor(this.hand);
-        Actor panel = new Image(panelTexture);
-        panel.setBounds(Constants.WORLD_WIDTH * 0.84f, Constants.WORLD_HEIGHT * 0.59f, Constants.WORLD_WIDTH * 0.19f, Constants.WORLD_HEIGHT * 0.41f);
-        getStage().addActor(panel);
     }
 
     private void initializeCards() {
@@ -142,16 +136,15 @@ public class MemoryGraphics extends MiniGameGraphics{
         } else {
             updateScore(points);
             if(this.logic.noCardsLeft()) {
-                sfx2.play(SFX_VOLUME);
+                sfx1.play();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         reset();
                     }
                 }, HIDE_DELAY);
-            } else {
-                sfx1.play(SFX_VOLUME);
-            }
+            } else
+                sfx2.play();
         }
     }
 }
