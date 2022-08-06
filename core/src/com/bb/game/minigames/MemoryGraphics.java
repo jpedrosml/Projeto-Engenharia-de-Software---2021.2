@@ -61,7 +61,7 @@ public class MemoryGraphics extends MiniGameGraphics{
 
     private void setUpStage() {
         setUpActors();
-        setUpText();
+        setUpPanel();
         getStage().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

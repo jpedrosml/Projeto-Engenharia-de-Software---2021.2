@@ -72,7 +72,7 @@ public class SequenceGraphics extends MiniGameGraphics {
     // então chama a função que verifica a tentativa do usuário.
     private void setUpStage() {
         setUpActors();
-        setUpText();
+        setUpPanel();
         getStage().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
