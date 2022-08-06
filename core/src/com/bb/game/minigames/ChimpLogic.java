@@ -8,26 +8,68 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+    /*
+        Classe responsável pela parte lógica do Jogo do Macaco ~ Chimp Game
+    */
 public class ChimpLogic {
+
+    /*
+        Lista contendo o número de botões, que variam de acordo
+        com a dificuldade.
+    */
     private List<Integer> buttons;
+    /*
+        Inteiro que guarda o número de botões restantes para vencer
+        um round do Jogo do Macaco.
+    */
     private int buttonsLeft;
+    /*
+        Float que guarda o tempo passado para calcular corretamente
+        os pontos ganhos pelo usuário.
+     */
     private float timer;
+    /*
+        Inteiro que guarda o número de pontos que o usuário deixa de ganhar
+        a cada segundo que passa; varia de acordo com a dificuldade.
+     */
     private int pointsLostPerSec;
+    /*
+        Inteiro que guarda o número sendo verificado, para saber se
+        o próximo é de fato seu sucessor.
+     */
     private int iterator;
 
-
+    /*
+        Construtor que inicializa as variáveis.
+     */
     ChimpLogic(Difficulty difficulty) {
         difficultyConfig(difficulty);
         this.buttonsLeft = this.buttons.size();
         this.iterator = 0;
+        this.timer = 0;
     }
 
+    /*
+        Disponibiliza novos botões e reinicia o temporizador.
+     */
     public void reset() {
         this.timer = 0;
         this.buttonsLeft = this.buttons.size();
         this.iterator = 0;
     }
 
+    /*
+        Reinicia os botões em uma ordem diferente da qual
+        estavam dispostos ao errar um determinado número.
+     */
+    public void wrongNumber() {
+        this.buttonsLeft = this.buttons.size();
+        this.iterator = 0;
+    }
+
+    /*
+        Configura a dificuldade do mini jogo (fácil, médio, difícil).
+     */
     private void difficultyConfig(Difficulty difficulty) {
         switch (difficulty){
             case EASY:
@@ -50,6 +92,11 @@ public class ChimpLogic {
         }
     }
 
+    /*
+        Recebe o número do botão clicado pelo jogador e verifica
+        se foi de fato o correto. Caso seja, calcula a quantia de
+        pontos para enfim retorná-la, reiniciando o temporizador.
+     */
     public int tryButton(int button) {
         int points = 0;
 
@@ -62,17 +109,26 @@ public class ChimpLogic {
         return points;
     }
 
-/*    public boolean isSequence() {
+    /*
+
+     */
+    public boolean inOrder(int button1, int button2) {
         boolean flag = true;
         for (int i = 0; i < this.buttons.size() - 1; i++) {
-            if (this.buttons.indexOf(i) < this.buttons.indexOf(i + 1)) {
+            button1 = this.buttons.indexOf(i);
+            button2 = this.buttons.indexOf(i + 1);
+
+            if (button1 < button2) {
                 this.buttons.remove(i);
                 return true;
             }
         }
         return false;
-    }*/
+    }
 
+    /*
+        Incrementa o temporizador conforme o tempo passado.
+     */
     public void incrementTimer(float delta) {
         this.timer += delta;
     }
@@ -81,10 +137,11 @@ public class ChimpLogic {
         return buttons;
     }
 
-    public void setButtons(List<Integer> buttons) {
-        this.buttons = buttons;
-    }
-
+    /*
+        Retorna se não existem botões restantes, ou seja
+        se o jogador acertou todos os números dos botões em ordem
+        ascendente.
+     */
     public boolean noButtonsLeft() {
         return this.buttonsLeft == 0;
     }

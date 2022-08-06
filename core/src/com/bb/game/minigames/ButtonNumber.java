@@ -11,14 +11,33 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+    Classe responsável pela criação do botão numérico como objeto.
+*/
 public class ButtonNumber extends Actor{
+    /*
+        Imagem do botão oculto.
+     */
     private Sprite hiddenButton;
+    /*
+        Imagem do botão visível.
+    */
     private Sprite visibleButton;
+    /*
+        Inteiro que guarda o identificador
+        do botão.
+     */
     private int id;
+    /*
+        Booleano que diz se o botão está revelado.
+     */
     private boolean revealed;
 
     private final float SCALE_ON_CLICK = 0.95f;
     private static final Texture cardBack = new Texture("memory\\cardBack.png");
+    /*
+        Mapa que guarda o número de cada botão.
+     */
     private static final Map<Integer, Texture> buttonMap = new HashMap<Integer,Texture>(){
         {
             put(0, new Texture("chimp\\number1.png"));
@@ -42,6 +61,10 @@ public class ButtonNumber extends Actor{
             put(18, new Texture("chimp\\number18.png"));
         }
     };
+
+    /*
+        Responsável por criar um botão de acordo com os valores passados.
+     */
     public ButtonNumber(int id, float x, float y, float width, float height) {
         this.id = id;
         this.revealed = true;

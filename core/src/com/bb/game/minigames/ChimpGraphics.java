@@ -16,16 +16,39 @@ import com.bb.game.utils.Fonts;
 
 import java.util.ArrayList;
 import java.util.List;
-
+    /*
+        Classe responsável pela parte gráfica do Jogo do Macaco ~ Chimp Game
+    */
 public class ChimpGraphics extends MiniGameGraphics{
-
+    /*
+        Lista de botões.
+     */
     private List<ButtonNumber> buttons;
+    /*
+        Instância da classe lógica.
+     */
     private ChimpLogic logic;
+    /*
+        Guarda a imagem da mão do Bean.
+     */
     private Image hand;
+    /*
+        Guarda o último Botão clicado.
+     */
     private ButtonNumber lastClickedButton;
+    /*
+        Guarda o indicador de pontos.
+     */
     private Label scoreIndicator;
+    /*
+        Guarda o indicador do temporizador.
+     */
     private Label timerIndicator;
 
+    /*
+        Variáveis responsáveis pelas animacoes, posicionamento e texturas
+        do cenário/fundo.
+     */
     private final float HAND_ANIMATION_DURATION = 0.25f;
     private final float HAND_ORIGINAL_POSX = Constants.WORLD_WIDTH * 0.95f;
     private final float HAND_ORIGINAL_POSY = Constants.WORLD_HEIGHT * (-0.72f);
@@ -33,7 +56,9 @@ public class ChimpGraphics extends MiniGameGraphics{
     private static final Texture backgroundTexture = new Texture("memory\\table.png");
     private static final Texture panelTexture = new Texture("memory\\panel.png");
 
-
+    /*
+        Construtor que chama a parte lógica para inicializar o jogo.
+     */
     ChimpGraphics(Difficulty difficulty){
         this.logic = new ChimpLogic(difficulty);
         this.hand = new Image(handTexture);
@@ -46,6 +71,9 @@ public class ChimpGraphics extends MiniGameGraphics{
         reset();
     }
 
+    /*
+        Chama o método de reiniciar da parte lógica.
+     */
     private void reset() {
         this.logic.reset();
         for(int i = 0; i < this.logic.getButtons().size(); i++){
@@ -54,6 +82,9 @@ public class ChimpGraphics extends MiniGameGraphics{
         }
     }
 
+    /*
+        Inicializa o cenário do jogo.
+     */
     private void setUpStage() {
         setUpActors();
         setUpText();
@@ -78,6 +109,9 @@ public class ChimpGraphics extends MiniGameGraphics{
         });
     }
 
+    /*
+        Inicializa os objetos do jogo, os Atores.
+     */
     private void setUpActors() {
         Actor background = new Image(backgroundTexture);
         background.setBounds(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
@@ -91,6 +125,9 @@ public class ChimpGraphics extends MiniGameGraphics{
         getStage().addActor(panel);
     }
 
+    /*
+        Inicializa a parte textual que sera exibida na tela.
+     */
     private void setUpText() {
         final Color PALE_YELLOW = new Color(243f/255f, 248f/255f, 146f/255f, 1);
         final float FONT_SCALE = 1.5f;
@@ -114,6 +151,10 @@ public class ChimpGraphics extends MiniGameGraphics{
         getStage().addActor(this.timerIndicator);
     }
 
+    /*
+        Inicializa os botões, onde seu número varia de acordo
+        com a dificuldade.
+     */
     private void initializeButtons() {
         this.buttons = new ArrayList<>();
         float x = 0f;
@@ -147,17 +188,19 @@ public class ChimpGraphics extends MiniGameGraphics{
         super.render(delta);
     }
 
+    /*
+        Metodo responsável por identificar a tentativa do botão feita
+        pelo jogador.
+     */
     private void makePlay(final ButtonNumber clickedButton){
-        final ButtonNumber lcc = this.lastClickedButton;
-        this.lastClickedButton = null;
-        int points = this.logic.tryButton(lcc.getId());
+        int points = this.logic.tryButton(clickedButton.getId());
         float HIDE_DELAY = 0.25f;
         if(points == 0){
+            this.logic.wrongNumber();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    lcc.remove();
-                    clickedButton.remove();
+
                 }
             }, HIDE_DELAY);
         } else {
