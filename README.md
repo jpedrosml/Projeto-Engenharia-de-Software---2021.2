@@ -27,7 +27,7 @@ LuizAntonio67
 
 Ody Junior -
 118210174 -
-ody.mendes@ccc.ufcg.edu.br-
+ody.mendes@ccc.ufcg.edu.br -
 Odyjmm    
 
 Sanderson Junior -
@@ -48,7 +48,7 @@ SandersonJunior
 ![Captura de tela de 2022-08-06 16-11-48](https://user-images.githubusercontent.com/55510959/183263029-8d96dc7c-3253-4729-a82f-72b0c9282405.png)
 
 
-Formado por peças que apresentam uma figura em um dos lados, onde cada uma dessas figuras se repetem em duas peças diferentes. Caso o jogador clique em uma peça e logo após acertar o seu par, ele ganha pontos.
+Formado por peças que apresentam uma figura em um dos lados, onde cada uma dessas figuras se repete em duas peças diferentes. Caso o jogador clique em uma peça e logo após acertar o seu par, ele ganha pontos.
 
 ## Mini-jogo do Macaco 
 #### Chimp Test
