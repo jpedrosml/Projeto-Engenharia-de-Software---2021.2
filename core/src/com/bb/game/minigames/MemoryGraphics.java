@@ -30,7 +30,6 @@ public class MemoryGraphics extends MiniGameGraphics{
     private final float HAND_ORIGINAL_POSY = Constants.WORLD_HEIGHT * (-0.72f);
     private static final Texture handTexture = new Texture("memory\\arm.png");
     private static final Texture backgroundTexture = new Texture("memory\\table.png");
-
     private static final Sound sfx1 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx2.wav"));
     private static final Sound sfx2 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx1.wav"));
     private static final Music bgmusic = Gdx.audio.newMusic(Gdx.files.internal("memory\\bgmusic.mp3"));
