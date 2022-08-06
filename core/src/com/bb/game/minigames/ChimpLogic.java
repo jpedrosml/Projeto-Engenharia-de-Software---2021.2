@@ -45,7 +45,7 @@ public class ChimpLogic {
     ChimpLogic(Difficulty difficulty) {
         difficultyConfig(difficulty);
         this.buttonsLeft = this.buttons.size();
-        this.iterator = 0;
+        this.iterator = 1;
         this.timer = 0;
     }
 
@@ -53,18 +53,10 @@ public class ChimpLogic {
         Disponibiliza novos botões e reinicia o temporizador.
      */
     public void reset() {
+        Collections.shuffle(this.buttons);
+        this.buttonsLeft = this.buttons.size();
+        this.iterator = 1;
         this.timer = 0;
-        this.buttonsLeft = this.buttons.size();
-        this.iterator = 0;
-    }
-
-    /*
-        Reinicia os botões em uma ordem diferente da qual
-        estavam dispostos ao errar um determinado número.
-     */
-    public void wrongNumber() {
-        this.buttonsLeft = this.buttons.size();
-        this.iterator = 0;
     }
 
     /*
@@ -79,12 +71,10 @@ public class ChimpLogic {
                 break;
             case MEDIUM:
                 this.buttons = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12);
-                Collections.shuffle(this.buttons);
                 this.pointsLostPerSec = 100;
                 break;
             case HARD:
                 this.buttons = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
-                Collections.shuffle(this.buttons);
                 this.pointsLostPerSec = 50;
                 break;
             default:
@@ -100,18 +90,19 @@ public class ChimpLogic {
     public int tryButton(int button) {
         int points = 0;
 
-        if(button == buttons.get(iterator)) {
+        System.out.println(button);
+        System.out.println(iterator);
+
+        if(button == iterator) {
             points = Math.max((Constants.MAX_POINTS_PER_PLAY - (int)(this.timer * this.pointsLostPerSec)), Constants.MIN_POINTS_PER_PLAY);
             this.timer = 0;
             this.buttonsLeft -= 1;
             this.iterator += 1;
         }
+        System.out.println(iterator);
         return points;
     }
 
-    /*
-
-     */
     public boolean inOrder(int button1, int button2) {
         boolean flag = true;
         for (int i = 0; i < this.buttons.size() - 1; i++) {

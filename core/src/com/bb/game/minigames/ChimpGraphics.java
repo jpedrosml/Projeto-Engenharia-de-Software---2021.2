@@ -29,14 +29,6 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     private ChimpLogic logic;
     /*
-        Guarda a imagem da mão do Bean.
-     */
-    private Image hand;
-    /*
-        Guarda o último Botão clicado.
-     */
-    private ButtonNumber lastClickedButton;
-    /*
         Guarda o indicador de pontos.
      */
     private Label scoreIndicator;
@@ -49,10 +41,7 @@ public class ChimpGraphics extends MiniGameGraphics{
         Variáveis responsáveis pelas animacoes, posicionamento e texturas
         do cenário/fundo.
      */
-    private final float HAND_ANIMATION_DURATION = 0.25f;
-    private final float HAND_ORIGINAL_POSX = Constants.WORLD_WIDTH * 0.95f;
-    private final float HAND_ORIGINAL_POSY = Constants.WORLD_HEIGHT * (-0.72f);
-    private static final Texture handTexture = new Texture("memory\\arm.png");
+
     private static final Texture backgroundTexture = new Texture("memory\\table.png");
     private static final Texture panelTexture = new Texture("memory\\panel.png");
 
@@ -61,14 +50,8 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     ChimpGraphics(Difficulty difficulty){
         this.logic = new ChimpLogic(difficulty);
-        this.hand = new Image(handTexture);
-        this.hand = new Image(handTexture);
-        this.hand.setBounds(HAND_ORIGINAL_POSX, HAND_ORIGINAL_POSY, Constants.WORLD_WIDTH * 0.26f, Constants.WORLD_HEIGHT * 1.3f);
-        this.hand.setRotation(15f);
-        this.hand.setTouchable(Touchable.disabled);
         initializeButtons();
         setUpStage();
-        reset();
     }
 
     /*
@@ -76,10 +59,8 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     private void reset() {
         this.logic.reset();
-        for(int i = 0; i < this.logic.getButtons().size(); i++){
-            this.buttons.get(i).setId(this.logic.getButtons().get(i));
-            this.buttons.get(i).hide();
-        }
+        initializeButtons();
+        setUpStage();
     }
 
     /*
@@ -93,17 +74,7 @@ public class ChimpGraphics extends MiniGameGraphics{
             public void clicked(InputEvent event, float x, float y) {
                 if(event.getTarget() instanceof ButtonNumber){
                     ButtonNumber clickedButton = (ButtonNumber) event.getTarget();
-                    if(!clickedButton.isRevealed()){
-                        hand.clearActions();
-                        hand.addAction(Actions.moveTo(HAND_ORIGINAL_POSX, HAND_ORIGINAL_POSY, HAND_ANIMATION_DURATION));
-                        hand.setPosition(clickedButton.getCenterX() - hand.getImageWidth()*0.25f, clickedButton.getCenterY() - hand.getImageHeight()*0.8f);
-                        clickedButton.reveal();
-                        if(lastClickedButton == null) {
-                            lastClickedButton = clickedButton;
-                        } else {
-                            makePlay(clickedButton);
-                        }
-                    }
+                    makePlay(clickedButton);
                 }
             }
         });
@@ -116,10 +87,11 @@ public class ChimpGraphics extends MiniGameGraphics{
         Actor background = new Image(backgroundTexture);
         background.setBounds(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
         getStage().addActor(background);
+
         for(Actor button: this.buttons){
             getStage().addActor(button);
         }
-        getStage().addActor(this.hand);
+
         Actor panel = new Image(panelTexture);
         panel.setBounds(Constants.WORLD_WIDTH * 0.84f, Constants.WORLD_HEIGHT * 0.59f, Constants.WORLD_WIDTH * 0.19f, Constants.WORLD_HEIGHT * 0.41f);
         getStage().addActor(panel);
@@ -156,22 +128,16 @@ public class ChimpGraphics extends MiniGameGraphics{
         com a dificuldade.
      */
     private void initializeButtons() {
-        this.buttons = new ArrayList<>();
+        if(this.buttons == null)
+            this.buttons = new ArrayList<>();
         float x = 0f;
         float y = Constants.WORLD_HEIGHT * 0.37f;
         float width = Constants.WORLD_WIDTH * 0.1f;
         float height = Constants.WORLD_HEIGHT * 0.27f;
 
         for(int i = 0; i < this.logic.getButtons().size(); i++){
-            if(i % 6 == 0)
-                x = Constants.WORLD_WIDTH * 0.03f;
-            this.buttons.add(new ButtonNumber(x, y, width, height));
-            x = x + Constants.WORLD_WIDTH * 0.14f;
-            if(i == 5){
-                y = Constants.WORLD_HEIGHT * 0.68f;
-            }else if(i == 11){
-                y = Constants.WORLD_HEIGHT * 0.05f;
-            }
+            this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y, width, height));
+            x += Constants.WORLD_WIDTH * 0.14f;
         }
     }
 
@@ -194,17 +160,19 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     private void makePlay(final ButtonNumber clickedButton){
         int points = this.logic.tryButton(clickedButton.getId());
-        float HIDE_DELAY = 0.25f;
+
+        float HIDE_DELAY = 0.5f;
         if(points == 0){
-            this.logic.wrongNumber();
+            System.out.println("Reset");
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-
+                    reset();
                 }
             }, HIDE_DELAY);
         } else {
             updateScore(points);
+            clickedButton.hide();
             if(this.logic.noButtonsLeft())
                 Timer.schedule(new Timer.Task() {
                     @Override

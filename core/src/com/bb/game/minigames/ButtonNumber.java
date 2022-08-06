@@ -31,10 +31,11 @@ public class ButtonNumber extends Actor{
     /*
         Booleano que diz se o botão está revelado.
      */
-    private boolean revealed;
+    private boolean hidden;
 
     private final float SCALE_ON_CLICK = 0.95f;
-    private static final Texture cardBack = new Texture("memory\\cardBack.png");
+    private final float NORMAL_SCALE = 1f;
+    private static final Texture emptyButton = new Texture("chimp\\emptyButton.png");
     /*
         Mapa que guarda o número de cada botão.
      */
@@ -67,46 +68,41 @@ public class ButtonNumber extends Actor{
      */
     public ButtonNumber(int id, float x, float y, float width, float height) {
         this.id = id;
-        this.revealed = true;
-        this.hiddenButton = new Sprite(cardBack);
+        this.hidden = false;
+        this.setBounds(x, y, width, height);
+        this.setTouchable(Touchable.enabled);
+
+        this.hiddenButton = new Sprite(emptyButton);
         this.hiddenButton.setBounds(x, y, width, height);
         this.visibleButton = new Sprite(buttonMap.get(this.id));
         this.visibleButton.setBounds(x, y, width, height);
-        setBounds(x, y, width, height);
-        setTouchable(Touchable.enabled);
+
         addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                hiddenButton.setScale(SCALE_ON_CLICK);
+                visibleButton.setScale(SCALE_ON_CLICK);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                hiddenButton.setScale(1f);
+                visibleButton.setScale(NORMAL_SCALE);
             }
         });
     }
 
-    public ButtonNumber(float x, float y, float width, float height){
-        this(0, x, y, width, height);
-    }
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if(revealed)
+        if(hidden) {
             hiddenButton.draw(batch);
-
+            this.setTouchable(Touchable.disabled);
+        }
         else
             visibleButton.draw(batch);
     }
 
-    public void reveal(){
-        this.revealed = true;
-    }
-
     public void hide() {
-        this.revealed = false;
+        this.hidden = true;
     }
 
     public int getId() {
@@ -115,19 +111,8 @@ public class ButtonNumber extends Actor{
 
     public void setId(int id) {
         this.id = id;
-        this.visibleButton.setTexture(buttonMap.get(this.id));
-    }
-
-    public boolean isRevealed() {
-        return revealed;
-    }
-
-    public float getCenterX() {
-        return getX() + (getWidth()/2f);
-    }
-
-    public float getCenterY() {
-        return getY() + (getHeight()/2f);
+        this.hidden = false;
+        this.setTouchable(Touchable.enabled);
     }
 }
 
