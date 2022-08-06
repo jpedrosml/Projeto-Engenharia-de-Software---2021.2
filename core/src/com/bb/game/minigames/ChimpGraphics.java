@@ -60,7 +60,6 @@ public class ChimpGraphics extends MiniGameGraphics{
     private void reset() {
         this.logic.reset();
         initializeButtons();
-        setUpStage();
     }
 
     /*
@@ -130,14 +129,65 @@ public class ChimpGraphics extends MiniGameGraphics{
     private void initializeButtons() {
         if(this.buttons == null)
             this.buttons = new ArrayList<>();
-        float x = 0f;
-        float y = Constants.WORLD_HEIGHT * 0.37f;
-        float width = Constants.WORLD_WIDTH * 0.1f;
-        float height = Constants.WORLD_HEIGHT * 0.27f;
+        showButtons();
+
+        List<Float> minYValues = List.of(
+                0.01f,
+                0.03f,
+                0.05f,
+                0.07f,
+                0.09f,
+                0.11f
+        );
+
+        List<Float> minXValues = List.of(
+                0.01f,
+                0.03f,
+                0.05f,
+                0.07f,
+                0.09f,
+                0.11f
+        );
+
+        List<Float> maxYValues = List.of(
+                0.1f,
+                0.3f,
+                0.5f,
+                0.7f,
+                0.9f,
+                1.1f
+        );
+
+        List<Float> maxXValues = List.of(
+                0.1f,
+                0.3f,
+                0.5f,
+                0.7f,
+                0.9f,
+                1.1f
+        );
+
+        float x;
+        float y;
+        float width = Constants.WORLD_WIDTH * 0.05f;
+        float height = Constants.WORLD_HEIGHT * 0.125f;
 
         for(int i = 0; i < this.logic.getButtons().size(); i++){
+            x = Constants.WORLD_WIDTH * (float)(minXValues.get(i) + Math.random() * (maxXValues.get(i) - minXValues.get(i)));
+            y = Constants.WORLD_HEIGHT * (float)(minYValues.get(i) + Math.random() * (maxYValues.get(i) - minYValues.get(i)));
             this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y, width, height));
-            x += Constants.WORLD_WIDTH * 0.14f;
+        }
+    }
+
+    private void hideButtons() {
+        for(ButtonNumber button : this.buttons) {
+            button.hide();
+        }
+    }
+
+    private void showButtons() {
+        for(ButtonNumber button : this.buttons) {
+            button.show();
         }
     }
 
@@ -163,7 +213,6 @@ public class ChimpGraphics extends MiniGameGraphics{
 
         float HIDE_DELAY = 0.5f;
         if(points == 0){
-            System.out.println("Reset");
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -172,7 +221,10 @@ public class ChimpGraphics extends MiniGameGraphics{
             }, HIDE_DELAY);
         } else {
             updateScore(points);
-            clickedButton.hide();
+            if(clickedButton.getId() == 1) {
+                hideButtons();
+            }
+            clickedButton.empty();
             if(this.logic.noButtonsLeft())
                 Timer.schedule(new Timer.Task() {
                     @Override

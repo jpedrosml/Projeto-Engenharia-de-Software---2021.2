@@ -3,7 +3,6 @@ package com.bb.game.minigames;
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -57,6 +56,7 @@ public class ChimpLogic {
         this.buttonsLeft = this.buttons.size();
         this.iterator = 1;
         this.timer = 0;
+        System.out.println(iterator);
     }
 
     /*
@@ -90,31 +90,13 @@ public class ChimpLogic {
     public int tryButton(int button) {
         int points = 0;
 
-        System.out.println(button);
-        System.out.println(iterator);
-
         if(button == iterator) {
             points = Math.max((Constants.MAX_POINTS_PER_PLAY - (int)(this.timer * this.pointsLostPerSec)), Constants.MIN_POINTS_PER_PLAY);
             this.timer = 0;
             this.buttonsLeft -= 1;
             this.iterator += 1;
         }
-        System.out.println(iterator);
         return points;
-    }
-
-    public boolean inOrder(int button1, int button2) {
-        boolean flag = true;
-        for (int i = 0; i < this.buttons.size() - 1; i++) {
-            button1 = this.buttons.indexOf(i);
-            button2 = this.buttons.indexOf(i + 1);
-
-            if (button1 < button2) {
-                this.buttons.remove(i);
-                return true;
-            }
-        }
-        return false;
     }
 
     /*

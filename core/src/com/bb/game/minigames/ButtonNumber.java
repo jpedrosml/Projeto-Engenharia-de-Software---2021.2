@@ -23,6 +23,8 @@ public class ButtonNumber extends Actor{
         Imagem do botão visível.
     */
     private Sprite visibleButton;
+
+    private Sprite emptyButton;
     /*
         Inteiro que guarda o identificador
         do botão.
@@ -33,9 +35,13 @@ public class ButtonNumber extends Actor{
      */
     private boolean hidden;
 
+    private boolean empty;
+
     private final float SCALE_ON_CLICK = 0.95f;
     private final float NORMAL_SCALE = 1f;
-    private static final Texture emptyButton = new Texture("chimp\\emptyButton.png");
+    private static final Texture hiddenFace = new Texture("chimp\\hiddenFace.png");
+    private static final Texture emptyFace = new Texture("chimp\\emptyFace.png");
+
     /*
         Mapa que guarda o número de cada botão.
      */
@@ -69,10 +75,13 @@ public class ButtonNumber extends Actor{
     public ButtonNumber(int id, float x, float y, float width, float height) {
         this.id = id;
         this.hidden = false;
+        this.empty = false;
         this.setBounds(x, y, width, height);
         this.setTouchable(Touchable.enabled);
 
-        this.hiddenButton = new Sprite(emptyButton);
+        this.emptyButton = new Sprite(emptyFace);
+        this.emptyButton.setBounds(x, y, width, height);
+        this.hiddenButton = new Sprite(hiddenFace);
         this.hiddenButton.setBounds(x, y, width, height);
         this.visibleButton = new Sprite(buttonMap.get(this.id));
         this.visibleButton.setBounds(x, y, width, height);
@@ -95,24 +104,29 @@ public class ButtonNumber extends Actor{
     public void draw(Batch batch, float parentAlpha) {
         if(hidden) {
             hiddenButton.draw(batch);
-            this.setTouchable(Touchable.disabled);
-        }
+        } else if(empty)
+            emptyButton.draw(batch);
         else
             visibleButton.draw(batch);
     }
 
+    public void show() {
+        this.hidden = false;
+        this.empty = false;
+    }
+
     public void hide() {
         this.hidden = true;
+        this.empty = false;
+    }
+
+    public void empty() {
+        this.empty = true;
+        this.hidden = false;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-        this.hidden = false;
-        this.setTouchable(Touchable.enabled);
     }
 }
 
