@@ -27,6 +27,8 @@ public class SequenceGraphics extends MiniGameGraphics {
     // Lista das cores disponíveis.
     private List<SequenceColor> colors;
 
+    private boolean ended;
+
     // Variável que guarda a textura da imagem de fundo.
     private static final Texture backgroundTexture = new Texture("sequence\\stage.png");
 
@@ -52,6 +54,7 @@ public class SequenceGraphics extends MiniGameGraphics {
     // Inicializa a classe de lógica e chama funções para inicializar o jogo.
     SequenceGraphics(Difficulty difficulty) {
         this.logic = new SequenceLogic(difficulty);
+        this.ended = false;
         initializeColors();
         setUpStage();
         reset();
@@ -138,8 +141,10 @@ public class SequenceGraphics extends MiniGameGraphics {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    clr.setBright();
-                    soundList.get(colorId).play(SFX_VOLUME);
+                    if(!ended){
+                        clr.setBright();
+                        soundList.get(colorId).play(SFX_VOLUME);
+                    }
                 }
             }, HIDE_DELAY_BRIGHT + HIDE_DELAY_INCREMENT * i);
 
@@ -258,5 +263,11 @@ public class SequenceGraphics extends MiniGameGraphics {
     public void render(float delta) {
         this.logic.incrementTimer(delta);
         super.render(delta);
+    }
+
+    @Override
+    public void conclude() {
+        this.ended = true;
+        super.conclude();
     }
 }
