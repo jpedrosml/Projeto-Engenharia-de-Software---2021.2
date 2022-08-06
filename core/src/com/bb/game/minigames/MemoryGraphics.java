@@ -146,4 +146,10 @@ public class MemoryGraphics extends MiniGameGraphics{
                 sfx2.play();
         }
     }
+
+    @Override
+    public void dispose() {
+        bgmusic.stop();
+        super.dispose();
+    }
 }
