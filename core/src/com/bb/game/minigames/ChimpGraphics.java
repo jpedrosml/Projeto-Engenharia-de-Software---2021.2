@@ -37,6 +37,8 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     private Label timerIndicator;
 
+    private boolean gameReset;
+
     /*
         Variáveis responsáveis pelas animacoes, posicionamento e texturas
         do cenário/fundo.
@@ -50,6 +52,7 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     ChimpGraphics(Difficulty difficulty){
         this.logic = new ChimpLogic(difficulty);
+        this.gameReset = false;
         initializeButtons();
         setUpStage();
     }
@@ -129,54 +132,186 @@ public class ChimpGraphics extends MiniGameGraphics{
     private void initializeButtons() {
         if(this.buttons == null)
             this.buttons = new ArrayList<>();
-        showButtons();
 
-        List<Float> minYValues = List.of(
-                0.01f,
-                0.03f,
-                0.05f,
-                0.07f,
-                0.09f,
-                0.11f
-        );
-
-        List<Float> minXValues = List.of(
-                0.01f,
-                0.03f,
-                0.05f,
-                0.07f,
-                0.09f,
-                0.11f
-        );
-
-        List<Float> maxYValues = List.of(
-                0.1f,
-                0.3f,
-                0.5f,
-                0.7f,
-                0.9f,
-                1.1f
-        );
-
-        List<Float> maxXValues = List.of(
-                0.1f,
-                0.3f,
-                0.5f,
-                0.7f,
-                0.9f,
-                1.1f
-        );
+        List<Float> minXValues = getMinXValues();
+        List<Float> maxXValues = getMaxXValues();
+        List<Float> minYValues = getMinYValues();
+        List<Float> maxYValues = getMaxYValues();
 
         float x;
         float y;
         float width = Constants.WORLD_WIDTH * 0.05f;
         float height = Constants.WORLD_HEIGHT * 0.125f;
 
+        // x limit 1: 0-0.79
+        // x limit 2: 0-0.95
+        // y limit  : 0-0.86
+        // y: 0-85(1-48);  x: 0-15,16-31,32-47,48-63,64-79,80-95
+        // y: 0-42;  x: 0-15,16-31,32-47,48-63,64-79,80-95
+        // y: 43-85; x: 0-12,13-25,26-38,39-51,52-64,65-77
+        // y: 0-28;  x: 0-15,16-31,32-47,48-63,64-79,80-95
+        // y: 29-57; x: 0-12,13-25,26-38,39-51,52-64,65-77
+        // y: 58-86; x: 0-12,13-25,26-38,39-51,52-64,65-77
         for(int i = 0; i < this.logic.getButtons().size(); i++){
             x = Constants.WORLD_WIDTH * (float)(minXValues.get(i) + Math.random() * (maxXValues.get(i) - minXValues.get(i)));
             y = Constants.WORLD_HEIGHT * (float)(minYValues.get(i) + Math.random() * (maxYValues.get(i) - minYValues.get(i)));
-            this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y, width, height));
+            // x = Constants.WORLD_WIDTH * 0.79f;
+            // y = Constants.WORLD_HEIGHT * 0.48f;
+
+            if(!gameReset)
+                this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y, width, height));
+            else
+                this.buttons.get(this.logic.getButtons().get(i)-1).changePosition(x,y,width,height);
         }
+
+        showButtons();
+        gameReset = true;
+    }
+
+    private List<Float> getMinXValues() {
+        List<Float> minXValues = List.of(
+                0f,
+                0.16f,
+                0.32f,
+                0.48f,
+                0.64f,
+                0.80f,
+                0f,
+                0.13f,
+                0.26f,
+                0.39f,
+                0.52f,
+                0.65f,
+                0f,
+                0.13f,
+                0.26f,
+                0.39f,
+                0.52f,
+                0.65f
+        );
+        return minXValues;
+    }
+
+    private List<Float> getMaxXValues() {
+        List<Float> maxXValues = List.of(
+                0.15f,
+                0.31f,
+                0.47f,
+                0.63f,
+                0.79f,
+                0.95f,
+                0.12f,
+                0.25f,
+                0.38f,
+                0.51f,
+                0.64f,
+                0.77f,
+                0.12f,
+                0.25f,
+                0.38f,
+                0.51f,
+                0.64f,
+                0.77f
+        );
+        return maxXValues;
+    }
+
+    private List<Float> getMinYValues() {
+        List<Float> minYValues;
+        if(this.logic.getDifficulty() == 0 || this.logic.getDifficulty() == 1) {
+            minYValues = List.of(
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0.43f,
+                    0.43f,
+                    0.43f,
+                    0.43f,
+                    0.43f,
+                    0.43f
+            );
+        } else {
+            minYValues = List.of(
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0f,
+                    0.29f,
+                    0.29f,
+                    0.29f,
+                    0.29f,
+                    0.29f,
+                    0.29f,
+                    0.58f,
+                    0.58f,
+                    0.58f,
+                    0.58f,
+                    0.58f,
+                    0.58f
+            );
+        }
+        return minYValues;
+    }
+
+    private List<Float> getMaxYValues() {
+        List<Float> maxYValues;
+        if(this.logic.getDifficulty() == 0) {
+            maxYValues = List.of(
+                    0.85f,
+                    0.85f,
+                    0.85f,
+                    0.85f,
+                    0.85f,
+                    0.48f
+            );
+        }
+        else if(this.logic.getDifficulty() == 1) {
+            maxYValues = List.of(
+                    0.42f,
+                    0.42f,
+                    0.42f,
+                    0.42f,
+                    0.42f,
+                    0.42f,
+                    0.85f,
+                    0.85f,
+                    0.85f,
+                    0.85f,
+                    0.85f,
+                    0.85f
+            );
+        }
+        // y: 0-28;  x: 0-15,16-31,32-47,48-63,64-79,80-95
+        // y: 29-57; x: 0-12,13-25,26-38,39-51,52-64,65-77
+        // y: 58-86; x: 0-12,13-25,26-38,39-51,52-64,65-77
+        else {
+            maxYValues = List.of(
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.57f,
+                    0.57f,
+                    0.57f,
+                    0.57f,
+                    0.57f,
+                    0.57f,
+                    0.86f,
+                    0.86f,
+                    0.86f,
+                    0.86f,
+                    0.86f,
+                    0.86f
+            );
+        }
+        return maxYValues;
     }
 
     private void hideButtons() {
@@ -211,7 +346,7 @@ public class ChimpGraphics extends MiniGameGraphics{
     private void makePlay(final ButtonNumber clickedButton){
         int points = this.logic.tryButton(clickedButton.getId());
 
-        float HIDE_DELAY = 0.5f;
+        float HIDE_DELAY = 0.25f;
         if(points == 0){
             Timer.schedule(new Timer.Task() {
                 @Override

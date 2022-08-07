@@ -113,6 +113,7 @@ public class ButtonNumber extends Actor{
     public void show() {
         this.hidden = false;
         this.empty = false;
+        this.setTouchable(Touchable.enabled);
     }
 
     public void hide() {
@@ -123,6 +124,14 @@ public class ButtonNumber extends Actor{
     public void empty() {
         this.empty = true;
         this.hidden = false;
+        this.setTouchable(Touchable.disabled);
+    }
+
+    public void changePosition(float x, float y, float width, float height) {
+        this.setBounds(x,y,width,height);
+        this.emptyButton.setBounds(x, y, width, height);
+        this.hiddenButton.setBounds(x, y, width, height);
+        this.visibleButton.setBounds(x, y, width, height);
     }
 
     public int getId() {

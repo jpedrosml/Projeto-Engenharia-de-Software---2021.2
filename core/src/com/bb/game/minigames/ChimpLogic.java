@@ -38,6 +38,8 @@ public class ChimpLogic {
      */
     private int iterator;
 
+    private int difficulty;
+
     /*
         Construtor que inicializa as variáveis.
      */
@@ -68,18 +70,27 @@ public class ChimpLogic {
                 this.buttons = Arrays.asList(1,2,3,4,5,6);
                 Collections.shuffle(this.buttons);
                 this.pointsLostPerSec = 200;
+                this.difficulty = 0;
                 break;
             case MEDIUM:
                 this.buttons = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12);
+                Collections.shuffle(this.buttons);
                 this.pointsLostPerSec = 100;
+                this.difficulty = 1;
                 break;
             case HARD:
                 this.buttons = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
+                Collections.shuffle(this.buttons);
                 this.pointsLostPerSec = 50;
+                this.difficulty = 2;
                 break;
             default:
                 throw new IllegalStateException();
         }
+    }
+
+    public int getDifficulty() {
+        return this.difficulty;
     }
 
     /*
