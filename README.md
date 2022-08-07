@@ -68,7 +68,7 @@ O objetivo deste mini-jogo é clicar rapidamente nos alvos que aparecem na tela,
 
 ![Captura de tela de 2022-08-06 16-06-37](https://user-images.githubusercontent.com/55510959/183262873-49ef4c11-8e65-46af-ab02-00a75e073143.png)
 
-Neste mini-jogo o jogador precisa memorizar a sequência de feijões que aparecem iluminados na tela, clicando em cada um deles em ordem logo após.
+Neste mini-jogo o jogador precisa memorizar a sequência de personagens que aparecem iluminados na tela, clicando em cada um deles em ordem logo após.
 
 # Documentos
 
