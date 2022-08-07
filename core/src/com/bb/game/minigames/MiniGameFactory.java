@@ -1,9 +1,5 @@
 package com.bb.game.minigames;
 
-import static com.bb.game.utils.Difficulty.EASY;
-import static com.bb.game.utils.Difficulty.HARD;
-import static com.bb.game.utils.Difficulty.MEDIUM;
-
 import com.bb.game.utils.Difficulty;
 
 public class MiniGameFactory {
@@ -34,12 +30,11 @@ public class MiniGameFactory {
 
     private static MiniGameGraphics createChimp(Difficulty difficulty) {
         //substituir depois
-        return new SequenceGraphics(difficulty);
+        return new MemoryGraphics(difficulty);
     }
 
     private static MiniGameGraphics createAim(Difficulty difficulty) {
-        //substituir depois
-        return new SequenceGraphics(difficulty);
+        return new AimGraphics(difficulty);
     }
 
     private static MiniGameGraphics createSequence(Difficulty difficulty) {
