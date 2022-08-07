@@ -1,18 +1,19 @@
 package com.bb.game.minigames;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
-import com.bb.game.utils.Fonts;
+import static com.bb.game.utils.Volume.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public class MemoryGraphics extends MiniGameGraphics{
     private final float HAND_ORIGINAL_POSY = Constants.WORLD_HEIGHT * (-0.72f);
     private static final Texture handTexture = new Texture("memory\\arm.png");
     private static final Texture backgroundTexture = new Texture("memory\\table.png");
+    private static final Sound sfx1 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx2.wav"));
+    private static final Sound sfx2 = Gdx.audio.newSound(Gdx.files.internal("memory\\sfx1.wav"));
+    private static final Music bgmusic = Gdx.audio.newMusic(Gdx.files.internal("memory\\bgmusic.mp3"));
 
 
     MemoryGraphics(Difficulty difficulty){
@@ -37,6 +41,11 @@ public class MemoryGraphics extends MiniGameGraphics{
         this.hand.setBounds(HAND_ORIGINAL_POSX, HAND_ORIGINAL_POSY, Constants.WORLD_WIDTH * 0.26f, Constants.WORLD_HEIGHT * 1.3f);
         this.hand.setRotation(15f);
         this.hand.setTouchable(Touchable.disabled);
+
+        bgmusic.play();
+        bgmusic.setVolume(MUSIC_VOLUME);
+        bgmusic.setLooping(true);
+
         initializeCards();
         setUpStage();
         reset();
@@ -52,7 +61,7 @@ public class MemoryGraphics extends MiniGameGraphics{
 
     private void setUpStage() {
         setUpActors();
-        setUpText();
+        setUpPanel();
         getStage().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -125,13 +134,22 @@ public class MemoryGraphics extends MiniGameGraphics{
             }, HIDE_DELAY);
         } else {
             updateScore(points);
-            if(this.logic.noCardsLeft())
+            if(this.logic.noCardsLeft()) {
+                sfx1.play();
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         reset();
                     }
                 }, HIDE_DELAY);
+            } else
+                sfx2.play();
         }
+    }
+
+    @Override
+    public void dispose() {
+        bgmusic.stop();
+        super.dispose();
     }
 }

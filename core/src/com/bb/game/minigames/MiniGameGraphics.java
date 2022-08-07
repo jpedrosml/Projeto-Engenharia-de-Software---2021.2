@@ -40,7 +40,7 @@ public abstract class MiniGameGraphics extends BrainyBeansGraphics {
         super.render(delta);
     }
 
-    public void setUpText() {
+    public void setUpPanel() {
         final Color PALE_YELLOW = new Color(243f/255f, 248f/255f, 146f/255f, 1);
         final float FONT_SCALE = 1.5f;
         final Label.LabelStyle STYLE_1 = new Label.LabelStyle(Fonts.COMIC_NEUE, PALE_YELLOW);
