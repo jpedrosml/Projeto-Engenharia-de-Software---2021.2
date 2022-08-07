@@ -68,23 +68,25 @@ public class AimGraphics extends MiniGameGraphics{
 
     private void setUpStage() {
         setUpActors();
-        setUpText();
+        setUpPanel();
         getStage().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                beanAnimation(x, y);
-                if (event.getTarget() instanceof Target) {
-                    Target t = (Target) event.getTarget();
-                    if(t.inTarget(x, y)){
-                        t.setTouchable(Touchable.disabled);
-                        updateScore(logic.scorePerHit(t.distanceToCenter(x, y)));
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                reposition();
-                                t.setTouchable(Touchable.enabled);
-                            }
-                        }, distance/BEAN_VELOCITY);
+                if(bean.getX() == BEAN_ORIGINAL_X && bean.getY() == BEAN_ORIGINAL_Y) {
+                    beanAnimation(x, y);
+                    if (event.getTarget() instanceof Target) {
+                        Target t = (Target) event.getTarget();
+                        if (t.inTarget(x, y)) {
+                            t.setTouchable(Touchable.disabled);
+                            updateScore(logic.scorePerHit(t.distanceToCenter(x, y)));
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    reposition();
+                                    t.setTouchable(Touchable.enabled);
+                                }
+                            }, distance / BEAN_VELOCITY);
+                        }
                     }
                 }
             }
