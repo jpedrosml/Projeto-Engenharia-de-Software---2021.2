@@ -58,7 +58,6 @@ public class ChimpLogic {
         this.buttonsLeft = this.buttons.size();
         this.iterator = 1;
         this.timer = 0;
-        System.out.println(iterator);
     }
 
     /*

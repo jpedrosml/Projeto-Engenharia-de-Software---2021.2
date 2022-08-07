@@ -143,20 +143,9 @@ public class ChimpGraphics extends MiniGameGraphics{
         float width = Constants.WORLD_WIDTH * 0.05f;
         float height = Constants.WORLD_HEIGHT * 0.125f;
 
-        // x limit 1: 0-0.79
-        // x limit 2: 0-0.95
-        // y limit  : 0-0.86
-        // y: 0-85(1-48);  x: 0-15,16-31,32-47,48-63,64-79,80-95
-        // y: 0-42;  x: 0-15,16-31,32-47,48-63,64-79,80-95
-        // y: 43-85; x: 0-12,13-25,26-38,39-51,52-64,65-77
-        // y: 0-28;  x: 0-15,16-31,32-47,48-63,64-79,80-95
-        // y: 29-57; x: 0-12,13-25,26-38,39-51,52-64,65-77
-        // y: 58-86; x: 0-12,13-25,26-38,39-51,52-64,65-77
         for(int i = 0; i < this.logic.getButtons().size(); i++){
             x = Constants.WORLD_WIDTH * (float)(minXValues.get(i) + Math.random() * (maxXValues.get(i) - minXValues.get(i)));
             y = Constants.WORLD_HEIGHT * (float)(minYValues.get(i) + Math.random() * (maxYValues.get(i) - minYValues.get(i)));
-            // x = Constants.WORLD_WIDTH * 0.79f;
-            // y = Constants.WORLD_HEIGHT * 0.48f;
 
             if(!gameReset)
                 this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y, width, height));
