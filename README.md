@@ -58,6 +58,9 @@ Neste mini-jogo, vários números estarão dispostos em diferentes posições na
 ## Mini-jogo da Mira 
 #### Aim Trainer
 
+![Captura de tela de 2022-08-07 13-02-00](https://user-images.githubusercontent.com/55510959/183299991-49aca765-2e6b-4c3b-990b-a47a554dc661.png)
+
+
 O objetivo deste mini-jogo é clicar rapidamente nos alvos que aparecem na tela, testando os reflexos do jogador e sua coordenação visomotora.
 
 ## Mini-jogo da Sequencia 
