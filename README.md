@@ -38,14 +38,16 @@ SandersonJunior
 # Descrição do Projeto
 ‘Brainy Beans’ é um jogo mobile que funciona de forma que as partidas são compostas por mini-jogos escolhidos aleatoriamente, onde a dificuldade escala de um para o outro, dando pontos aos jogadores baseando-se no tempo em que cada jogo é finalizado. Além do propósito de entreter, o jogo também serve como um meio de estimular o raciocínio.
 
-![Captura de tela de 2022-08-06 15-29-37](https://user-images.githubusercontent.com/55510959/183262898-1e264142-35fa-48b7-8be7-c9f90d825d67.png)
+![Captura de tela de 2022-08-07 20-49-25](https://user-images.githubusercontent.com/55510959/183315917-867b3a95-4e54-4978-a835-935a3562a561.png)
+
 
 # Sobre os Mini-jogos
 
 ## Mini-jogo da Memória 
 #### Matching Game
 
-![Captura de tela de 2022-08-06 16-11-48](https://user-images.githubusercontent.com/55510959/183263029-8d96dc7c-3253-4729-a82f-72b0c9282405.png)
+![Captura de tela de 2022-08-07 20-49-31](https://user-images.githubusercontent.com/55510959/183315939-5b42639e-91ef-4324-9036-1c084e530d15.png)
+
 
 
 Formado por peças que apresentam uma figura em um dos lados, onde cada uma dessas figuras se repete em duas peças diferentes. Caso o jogador clique em uma peça e logo após acertar o seu par, ele ganha pontos.
