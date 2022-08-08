@@ -49,11 +49,13 @@ SandersonJunior
 ![Captura de tela de 2022-08-07 20-49-31](https://user-images.githubusercontent.com/55510959/183315939-5b42639e-91ef-4324-9036-1c084e530d15.png)
 
 
-
 Formado por peças que apresentam uma figura em um dos lados, onde cada uma dessas figuras se repete em duas peças diferentes. Caso o jogador clique em uma peça e logo após acertar o seu par, ele ganha pontos.
 
 ## Mini-jogo do Macaco 
 #### Chimp Test
+
+![Captura de tela de 2022-08-07 22-40-02](https://user-images.githubusercontent.com/55510959/183322105-dddd3b93-3997-4a7f-8c46-7e927bc28878.png)
+
 
 Neste mini-jogo, vários números estarão dispostos em diferentes posições na tela, e o objetivo é clicar em cada um deles em ordem ascendente; a questão é, uma vez clicando no primeiro número (1), os demais desaparecem.
 
@@ -69,6 +71,7 @@ O objetivo deste mini-jogo é clicar rapidamente nos alvos que aparecem na tela,
 #### Sequence Memory Test
 
 ![Captura de tela de 2022-08-06 16-06-37](https://user-images.githubusercontent.com/55510959/183262873-49ef4c11-8e65-46af-ab02-00a75e073143.png)
+
 
 Neste mini-jogo o jogador precisa memorizar a sequência de personagens que aparecem iluminados na tela, clicando em cada um deles em ordem logo após.
 
