@@ -32,7 +32,6 @@ public class MiniGameFactory {
     }
 
     private static MiniGameGraphics createChimp(Difficulty difficulty) {
-        //substituir depois
         return new ChimpGraphics(HARD);
     }
 
