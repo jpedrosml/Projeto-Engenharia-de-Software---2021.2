@@ -78,6 +78,7 @@ public class Menu extends BrainyBeansGraphics {
             case "play":
                 GameManager gm = new GameManager(game);
                 gm.playGame();
+                this.ranking = gm.getRanking();
                 break;
             case "ranking":
                 RankingScreen rs = new RankingScreen(ranking, game);
