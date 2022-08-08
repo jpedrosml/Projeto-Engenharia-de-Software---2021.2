@@ -30,11 +30,6 @@ Ody Junior -
 ody.mendes@ccc.ufcg.edu.br -
 Odyjmm    
 
-Sanderson Junior -
-118111051 -
-sanderson.junior@ccc.ufcg.edu.br -
-SandersonJunior
-
 # Descrição do Projeto
 ‘Brainy Beans’ é um jogo mobile que funciona de forma que as partidas são compostas por mini-jogos escolhidos aleatoriamente, onde a dificuldade escala de um para o outro, dando pontos aos jogadores baseando-se no tempo em que cada jogo é finalizado. Além do propósito de entreter, o jogo também serve como um meio de estimular o raciocínio.
 
