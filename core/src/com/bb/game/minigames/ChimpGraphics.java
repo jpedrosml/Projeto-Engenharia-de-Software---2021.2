@@ -1,25 +1,31 @@
 package com.bb.game.minigames;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Timer;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
+
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
 import com.bb.game.utils.Fonts;
+import static com.bb.game.utils.Volume.*;
 
 import java.util.ArrayList;
 import java.util.List;
-    /*
-        Classe responsável pela parte gráfica do Jogo do Macaco ~ Chimp Game
-    */
+
+/*
+    Classe responsável pela parte gráfica do Jogo do Macaco ~ Chimp Game
+*/
 public class ChimpGraphics extends MiniGameGraphics{
+
     /*
         Lista de botões.
      */
@@ -36,19 +42,49 @@ public class ChimpGraphics extends MiniGameGraphics{
         Guarda o indicador do temporizador.
      */
     private Label timerIndicator;
-
-    private boolean gameReset;
-
     /*
-        Variáveis responsáveis pelas animacoes, posicionamento e texturas
+        Diz se o jogo foi resetado ou não.
+     */
+    private boolean gameReset;
+    /*
+        Instância da classe Chimp que controla o macaco.
+     */
+    private Chimp chimp;
+    /*
+        Variáveis responsáveis pelas animacões, posicionamento e texturas
         do cenário/fundo.
      */
-
-    private static final Texture backgroundTexture = new Texture("memory\\table.png");
+    private static final Texture backgroundTexture = new Texture("chimp\\background.png");
     private static final Texture panelTexture = new Texture("memory\\panel.png");
+    private static final Texture computerTexture = new Texture("chimp\\computer.png");
+    /*
+        Sons a serem usados no jogo.
+     */
+    private static final Sound sfxLose = Gdx.audio.newSound(Gdx.files.internal("chimp\\sfxLose.mp3"));
+    private static final Sound sfxWin = Gdx.audio.newSound(Gdx.files.internal("chimp\\sfxWin.mp3"));
+    private static final List<Sound> soundList = List.of(
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx1.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx2.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx3.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx4.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx5.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx6.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx1.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx2.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx3.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx4.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx5.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx6.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx1.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx2.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx3.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx4.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx5.mp3")),
+            Gdx.audio.newSound(Gdx.files.internal("chimp\\sfx6.mp3"))
+    );
 
     /*
-        Construtor que chama a parte lógica para inicializar o jogo.
+        Construtor que chama a parte lógica e funções para inicializar o jogo.
      */
     ChimpGraphics(Difficulty difficulty){
         this.logic = new ChimpLogic(difficulty);
@@ -56,15 +92,13 @@ public class ChimpGraphics extends MiniGameGraphics{
         initializeButtons();
         setUpStage();
     }
-
     /*
-        Chama o método de reiniciar da parte lógica.
+        Chama o método de reiniciar da parte lógica e inicializa novamente os botões.
      */
     private void reset() {
         this.logic.reset();
         initializeButtons();
     }
-
     /*
         Inicializa o cenário do jogo.
      */
@@ -81,7 +115,6 @@ public class ChimpGraphics extends MiniGameGraphics{
             }
         });
     }
-
     /*
         Inicializa os objetos do jogo, os Atores.
      */
@@ -90,15 +123,22 @@ public class ChimpGraphics extends MiniGameGraphics{
         background.setBounds(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
         getStage().addActor(background);
 
-        for(Actor button: this.buttons){
-            getStage().addActor(button);
-        }
-
         Actor panel = new Image(panelTexture);
         panel.setBounds(Constants.WORLD_WIDTH * 0.84f, Constants.WORLD_HEIGHT * 0.59f, Constants.WORLD_WIDTH * 0.19f, Constants.WORLD_HEIGHT * 0.41f);
         getStage().addActor(panel);
-    }
 
+        Actor computer = new Image(computerTexture);
+        computer.setBounds(Constants.WORLD_WIDTH * 0f, Constants.WORLD_HEIGHT * 0.01f, Constants.WORLD_WIDTH * 0.9f, Constants.WORLD_HEIGHT * 0.95f);
+        getStage().addActor(computer);
+        computer.setTouchable(Touchable.disabled);
+
+        this.chimp = new Chimp(Constants.WORLD_WIDTH * 0.73f, Constants.WORLD_HEIGHT * 0f, Constants.WORLD_WIDTH * 0.3f, Constants.WORLD_HEIGHT * 0.6f);
+        getStage().addActor(this.chimp);
+
+        for(Actor button: this.buttons){
+            getStage().addActor(button);
+        }
+    }
     /*
         Inicializa a parte textual que sera exibida na tela.
      */
@@ -124,7 +164,6 @@ public class ChimpGraphics extends MiniGameGraphics{
         this.timerIndicator.setFontScale(FONT_SCALE);
         getStage().addActor(this.timerIndicator);
     }
-
     /*
         Inicializa os botões, onde seu número varia de acordo
         com a dificuldade.
@@ -140,12 +179,27 @@ public class ChimpGraphics extends MiniGameGraphics{
 
         float x;
         float y;
-        float width = Constants.WORLD_WIDTH * 0.05f;
-        float height = Constants.WORLD_HEIGHT * 0.125f;
+        float width;
+        float height = Constants.WORLD_HEIGHT * 0.06f;
 
+        // limite x: 0.03-0.67
+        // limite y: 0.13-0.82
+        // y: 0.1-0.82;  x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
+        // y: 0.1-0.41;  x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
+        // y: 0.42-0.82; x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
+        // y: 0.1-0.27;  x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
+        // y: 0.28-0.54; x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
+        // y: 0.55-0.81; x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
         for(int i = 0; i < this.logic.getButtons().size(); i++){
             x = Constants.WORLD_WIDTH * (float)(minXValues.get(i) + Math.random() * (maxXValues.get(i) - minXValues.get(i)));
             y = Constants.WORLD_HEIGHT * (float)(minYValues.get(i) + Math.random() * (maxYValues.get(i) - minYValues.get(i)));
+            // x = Constants.WORLD_WIDTH * 0.03f;
+            // y = Constants.WORLD_HEIGHT * 0.13f;
+
+            if(this.logic.getButtons().get(i)>9)
+                width = Constants.WORLD_WIDTH * 0.04f;
+            else
+                width = Constants.WORLD_WIDTH * 0.02f;
 
             if(!gameReset)
                 this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y, width, height));
@@ -156,159 +210,211 @@ public class ChimpGraphics extends MiniGameGraphics{
         showButtons();
         gameReset = true;
     }
-
+    /*
+        Função que retorna uma lista com os valores mínimos de X possíveis
+        dentre intervalos selecionados onde o número pode aparecer.
+     */
     private List<Float> getMinXValues() {
         List<Float> minXValues = List.of(
-                0f,
-                0.16f,
-                0.32f,
-                0.48f,
-                0.64f,
-                0.80f,
-                0f,
+                0.03f,
                 0.13f,
-                0.26f,
-                0.39f,
-                0.52f,
-                0.65f,
-                0f,
+                0.24f,
+                0.35f,
+                0.46f,
+                0.57f,
+                0.03f,
                 0.13f,
-                0.26f,
-                0.39f,
-                0.52f,
-                0.65f
+                0.24f,
+                0.35f,
+                0.46f,
+                0.57f,
+                0.03f,
+                0.13f,
+                0.24f,
+                0.35f,
+                0.46f,
+                0.57f
         );
         return minXValues;
     }
-
+    /*
+        Função que retorna uma lista com os valores máximos de X possíveis
+        dentre intervalos selecionados onde o número pode aparecer.
+     */
     private List<Float> getMaxXValues() {
         List<Float> maxXValues = List.of(
-                0.15f,
-                0.31f,
-                0.47f,
-                0.63f,
-                0.79f,
-                0.95f,
                 0.12f,
-                0.25f,
-                0.38f,
-                0.51f,
-                0.64f,
-                0.77f,
+                0.23f,
+                0.34f,
+                0.45f,
+                0.56f,
+                0.67f,
                 0.12f,
-                0.25f,
-                0.38f,
-                0.51f,
-                0.64f,
-                0.77f
+                0.23f,
+                0.34f,
+                0.45f,
+                0.56f,
+                0.67f,
+                0.12f,
+                0.23f,
+                0.34f,
+                0.45f,
+                0.56f,
+                0.67f
         );
         return maxXValues;
     }
-
+    /*
+        Função que retorna uma lista com os valores mínimos de Y possíveis
+        dentre intervalos selecionados onde o número pode aparecer.
+     */
     private List<Float> getMinYValues() {
         List<Float> minYValues;
         if(this.logic.getDifficulty() == 0 || this.logic.getDifficulty() == 1) {
             minYValues = List.of(
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0.43f,
-                    0.43f,
-                    0.43f,
-                    0.43f,
-                    0.43f,
-                    0.43f
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.42f,
+                    0.42f,
+                    0.42f,
+                    0.42f,
+                    0.42f,
+                    0.42f
             );
-        } else {
+        }
+        else {
             minYValues = List.of(
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0f,
-                    0.29f,
-                    0.29f,
-                    0.29f,
-                    0.29f,
-                    0.29f,
-                    0.29f,
-                    0.58f,
-                    0.58f,
-                    0.58f,
-                    0.58f,
-                    0.58f,
-                    0.58f
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.13f,
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.28f,
+                    0.55f,
+                    0.55f,
+                    0.55f,
+                    0.55f,
+                    0.55f,
+                    0.55f
             );
         }
         return minYValues;
     }
-
+    /*
+        Função que retorna uma lista com os valores máximos de Y possíveis
+        dentre intervalos selecionados onde o número pode aparecer.
+     */
     private List<Float> getMaxYValues() {
         List<Float> maxYValues;
         if(this.logic.getDifficulty() == 0) {
             maxYValues = List.of(
-                    0.85f,
-                    0.85f,
-                    0.85f,
-                    0.85f,
-                    0.85f,
-                    0.48f
+                    0.82f,
+                    0.82f,
+                    0.82f,
+                    0.82f,
+                    0.82f,
+                    0.82f
             );
         }
         else if(this.logic.getDifficulty() == 1) {
             maxYValues = List.of(
-                    0.42f,
-                    0.42f,
-                    0.42f,
-                    0.42f,
-                    0.42f,
-                    0.42f,
-                    0.85f,
-                    0.85f,
-                    0.85f,
-                    0.85f,
-                    0.85f,
-                    0.85f
+                    0.41f,
+                    0.41f,
+                    0.41f,
+                    0.41f,
+                    0.41f,
+                    0.41f,
+                    0.82f,
+                    0.82f,
+                    0.82f,
+                    0.82f,
+                    0.82f,
+                    0.82f
             );
         }
-        // y: 0-28;  x: 0-15,16-31,32-47,48-63,64-79,80-95
-        // y: 29-57; x: 0-12,13-25,26-38,39-51,52-64,65-77
-        // y: 58-86; x: 0-12,13-25,26-38,39-51,52-64,65-77
         else {
             maxYValues = List.of(
-                    0.28f,
-                    0.28f,
-                    0.28f,
-                    0.28f,
-                    0.28f,
-                    0.28f,
-                    0.57f,
-                    0.57f,
-                    0.57f,
-                    0.57f,
-                    0.57f,
-                    0.57f,
-                    0.86f,
-                    0.86f,
-                    0.86f,
-                    0.86f,
-                    0.86f,
-                    0.86f
+                    0.27f,
+                    0.27f,
+                    0.27f,
+                    0.27f,
+                    0.27f,
+                    0.27f,
+                    0.54f,
+                    0.54f,
+                    0.54f,
+                    0.54f,
+                    0.54f,
+                    0.54f,
+                    0.81f,
+                    0.81f,
+                    0.81f,
+                    0.81f,
+                    0.81f,
+                    0.81f
             );
         }
         return maxYValues;
     }
+    /*
+        Metodo responsável por identificar a tentativa do botão feita
+        pelo jogador.
+     */
+    private void makePlay(final ButtonNumber clickedButton){
+        int points = this.logic.tryButton(clickedButton.getId());
 
+        float HIDE_DELAY = 0.25f;
+        if(points == 0){
+            sfxLose.play(SFX_VOLUME);
+            this.chimp.laugh();
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    reset();
+                    chimp.idle();
+                }
+            }, HIDE_DELAY);
+        } else {
+            updateScore(points);
+            if(clickedButton.getId() == 1) {
+                hideButtons();
+            }
+            clickedButton.empty();
+            if(this.logic.noButtonsLeft()) {
+                sfxWin.play(SFX_VOLUME);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        reset();
+                    }
+                }, HIDE_DELAY);
+            } else
+                soundList.get(clickedButton.getId()).play(SFX_VOLUME);
+        }
+    }
+    /*
+        Esconde todos os botões restantes para que
+        não seja mais possível vê-los, apenas sua posição.
+     */
     private void hideButtons() {
         for(ButtonNumber button : this.buttons) {
             button.hide();
         }
     }
-
+    /*
+        Mostra todos os botões, função utilizada para resetar o jogo e
+        mostrar os botões que estavam escondidos.
+     */
     private void showButtons() {
         for(ButtonNumber button : this.buttons) {
             button.show();
@@ -326,36 +432,5 @@ public class ChimpGraphics extends MiniGameGraphics{
         }
         this.scoreIndicator.setText(getScore().toString());
         super.render(delta);
-    }
-
-    /*
-        Metodo responsável por identificar a tentativa do botão feita
-        pelo jogador.
-     */
-    private void makePlay(final ButtonNumber clickedButton){
-        int points = this.logic.tryButton(clickedButton.getId());
-
-        float HIDE_DELAY = 0.25f;
-        if(points == 0){
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    reset();
-                }
-            }, HIDE_DELAY);
-        } else {
-            updateScore(points);
-            if(clickedButton.getId() == 1) {
-                hideButtons();
-            }
-            clickedButton.empty();
-            if(this.logic.noButtonsLeft())
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        reset();
-                    }
-                }, HIDE_DELAY);
-        }
     }
 }

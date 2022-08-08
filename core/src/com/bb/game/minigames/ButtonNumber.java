@@ -25,6 +25,7 @@ public class ButtonNumber extends Actor{
     private Sprite visibleButton;
 
     private Sprite emptyButton;
+
     /*
         Inteiro que guarda o identificador
         do botão.
@@ -39,7 +40,7 @@ public class ButtonNumber extends Actor{
 
     private final float SCALE_ON_CLICK = 0.95f;
     private final float NORMAL_SCALE = 1f;
-    private static final Texture hiddenFace = new Texture("chimp\\hiddenFace.png");
+    private static final Texture hiddenFace = new Texture("chimp\\button.png");
     private static final Texture emptyFace = new Texture("chimp\\emptyFace.png");
 
     /*
@@ -47,25 +48,25 @@ public class ButtonNumber extends Actor{
      */
     private static final Map<Integer, Texture> buttonMap = new HashMap<Integer,Texture>(){
         {
-            put(0, new Texture("chimp\\number1.png"));
-            put(1, new Texture("chimp\\number1.png"));
-            put(2, new Texture("chimp\\number2.png"));
-            put(3, new Texture("chimp\\number3.png"));
-            put(4, new Texture("chimp\\number4.png"));
-            put(5, new Texture("chimp\\number5.png"));
-            put(6, new Texture("chimp\\number6.png"));
-            put(7, new Texture("chimp\\number7.png"));
-            put(8, new Texture("chimp\\number8.png"));
-            put(9, new Texture("chimp\\number9.png"));
-            put(10, new Texture("chimp\\number10.png"));
-            put(11, new Texture("chimp\\number11.png"));
-            put(12, new Texture("chimp\\number12.png"));
-            put(13, new Texture("chimp\\number13.png"));
-            put(14, new Texture("chimp\\number14.png"));
-            put(15, new Texture("chimp\\number15.png"));
-            put(16, new Texture("chimp\\number16.png"));
-            put(17, new Texture("chimp\\number17.png"));
-            put(18, new Texture("chimp\\number18.png"));
+            put(0, new Texture("chimp\\number_0.png"));
+            put(1, new Texture("chimp\\number_1.png"));
+            put(2, new Texture("chimp\\number_2.png"));
+            put(3, new Texture("chimp\\number_3.png"));
+            put(4, new Texture("chimp\\number_4.png"));
+            put(5, new Texture("chimp\\number_5.png"));
+            put(6, new Texture("chimp\\number_6.png"));
+            put(7, new Texture("chimp\\number_7.png"));
+            put(8, new Texture("chimp\\number_8.png"));
+            put(9, new Texture("chimp\\number_9.png"));
+            put(10, new Texture("chimp\\number_10.png"));
+            put(11, new Texture("chimp\\number_11.png"));
+            put(12, new Texture("chimp\\number_12.png"));
+            put(13, new Texture("chimp\\number_13.png"));
+            put(14, new Texture("chimp\\number_14.png"));
+            put(15, new Texture("chimp\\number_15.png"));
+            put(16, new Texture("chimp\\number_16.png"));
+            put(17, new Texture("chimp\\number_17.png"));
+            put(18, new Texture("chimp\\number_18.png"));
         }
     };
 
@@ -106,8 +107,9 @@ public class ButtonNumber extends Actor{
             hiddenButton.draw(batch);
         } else if(empty)
             emptyButton.draw(batch);
-        else
+        else {
             visibleButton.draw(batch);
+        }
     }
 
     public void show() {

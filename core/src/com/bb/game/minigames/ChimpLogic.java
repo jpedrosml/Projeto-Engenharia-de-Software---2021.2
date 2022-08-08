@@ -37,7 +37,9 @@ public class ChimpLogic {
         o próximo é de fato seu sucessor.
      */
     private int iterator;
-
+    /*
+        Inteiro que guarda um número representando a dificuldade, de 0 a 2.
+     */
     private int difficulty;
 
     /*
@@ -49,7 +51,6 @@ public class ChimpLogic {
         this.iterator = 1;
         this.timer = 0;
     }
-
     /*
         Disponibiliza novos botões e reinicia o temporizador.
      */
@@ -59,7 +60,6 @@ public class ChimpLogic {
         this.iterator = 1;
         this.timer = 0;
     }
-
     /*
         Configura a dificuldade do mini jogo (fácil, médio, difícil).
      */
@@ -88,38 +88,19 @@ public class ChimpLogic {
         }
     }
 
+    public List<Integer> getButtons() {
+        return buttons;
+    }
+
     public int getDifficulty() {
         return this.difficulty;
     }
-
-    /*
-        Recebe o número do botão clicado pelo jogador e verifica
-        se foi de fato o correto. Caso seja, calcula a quantia de
-        pontos para enfim retorná-la, reiniciando o temporizador.
-     */
-    public int tryButton(int button) {
-        int points = 0;
-
-        if(button == iterator) {
-            points = Math.max((Constants.MAX_POINTS_PER_PLAY - (int)(this.timer * this.pointsLostPerSec)), Constants.MIN_POINTS_PER_PLAY);
-            this.timer = 0;
-            this.buttonsLeft -= 1;
-            this.iterator += 1;
-        }
-        return points;
-    }
-
     /*
         Incrementa o temporizador conforme o tempo passado.
      */
     public void incrementTimer(float delta) {
         this.timer += delta;
     }
-
-    public List<Integer> getButtons() {
-        return buttons;
-    }
-
     /*
         Retorna se não existem botões restantes, ou seja
         se o jogador acertou todos os números dos botões em ordem
@@ -128,5 +109,20 @@ public class ChimpLogic {
     public boolean noButtonsLeft() {
         return this.buttonsLeft == 0;
     }
+    /*
+        Recebe o número do botão clicado pelo jogador e verifica
+        se foi de fato o correto. Caso seja, calcula a quantia de
+        pontos para enfim retorná-la, reiniciando o temporizador.
+     */
+    public int tryButton(int button) {
+        int points = 0;
+        if(button == iterator) {
+            points = Math.max((Constants.MAX_POINTS_PER_PLAY - (int)(this.timer * this.pointsLostPerSec)), Constants.MIN_POINTS_PER_PLAY);
+            this.timer = 0;
+            this.buttonsLeft -= 1;
+            this.iterator += 1;
+        }
 
+        return points;
+    }
 }
