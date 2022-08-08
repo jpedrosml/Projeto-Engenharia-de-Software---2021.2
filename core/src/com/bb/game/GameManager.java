@@ -36,8 +36,7 @@ public class GameManager {
             miniGame.setManager(this);
             this.game.setScreen(miniGame);
         }else{
-            //exibir a pontuação total
-            this.game.setScreen(new Menu(this.game));
+            this.game.setScreen(new ScoreScreen(score, game));
         }
         this.currentRound++;
     }
