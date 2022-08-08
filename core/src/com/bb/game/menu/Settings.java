@@ -29,8 +29,8 @@ public class Settings extends BrainyBeansGraphics {
         Sprite slider = new Sprite(sliderTexture);
         Sprite knob = new Sprite(knobTexture);
         Slider.SliderStyle style = new Slider.SliderStyle(new SpriteDrawable(slider),new SpriteDrawable(knob));
-        sfxSlider = new Slider(0f, 1f, 0.01f, false, style);
-        musicSlider = new Slider(0f, 1f, 0.01f, false, style);
+        sfxSlider = new BrainyBeansSlider(0f, 1f, 0.01f, false, style);
+        musicSlider = new BrainyBeansSlider(0f, 1f, 0.01f, false, style);
         sfxSlider.setValue(Volume.SFX_VOLUME);
         musicSlider.setValue(Volume.MUSIC_VOLUME);
         setUpStage();
