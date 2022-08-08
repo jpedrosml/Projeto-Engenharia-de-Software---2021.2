@@ -75,6 +75,7 @@ public class Menu extends BrainyBeansGraphics {
             case "ranking":
                 break;
             case "settings":
+                game.setScreen(new Settings(game));
                 break;
             case "about":
                 break;
