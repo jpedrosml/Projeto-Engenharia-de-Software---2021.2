@@ -42,20 +42,10 @@ public class GameManager {
         if(this.currentRound !=0 ){
             difficulty = Difficulty.difficultyIncrement(this.difficulty);
         }
-        if(this.currentRound < ROUNDS_PER_GAME){
-            MiniGameGraphics miniGame = createRandGame(this.difficulty);
-            miniGame.setManager(this);
-            this.game.setScreen(miniGame);
-        }else{
-            if(ranking.size() < 10)
-                ranking.add(score);
-            else {
-                Collections.sort(ranking);
-                if(score > ranking.get(0))
-                    ranking.set(0, score);
-            }
-            this.game.setScreen(new ScoreScreen(score, game));
-        }
+
+        MiniGameGraphics miniGame = createRandGame(this.difficulty);
+        miniGame.setManager(this);
+        this.game.setScreen(miniGame);
         this.currentRound++;
     }
 
@@ -66,7 +56,18 @@ public class GameManager {
     }
 
     public void notifyConclusion(int miniGameScore){
-        this.score += miniGameScore;
-        game.setScreen(new Transition(difficulty, this));
+        if(this.currentRound < ROUNDS_PER_GAME) {
+            this.score += miniGameScore;
+            game.setScreen(new Transition(difficulty, this));
+        }else{
+            if(ranking.size() < 10)
+                ranking.add(score);
+            else {
+                Collections.sort(ranking);
+                if(score > ranking.get(0))
+                    ranking.set(0, score);
+            }
+            this.game.setScreen(new ScoreScreen(score, game));
+        }
     }
 }
