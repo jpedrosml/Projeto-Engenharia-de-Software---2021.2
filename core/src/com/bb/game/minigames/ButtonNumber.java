@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.bb.game.utils.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class ButtonNumber extends Actor{
 
     private Sprite emptyButton;
 
+    private Sprite backgroundButton;
+
     /*
         Inteiro que guarda o identificador
         do botão.
@@ -40,7 +43,7 @@ public class ButtonNumber extends Actor{
 
     private final float SCALE_ON_CLICK = 0.95f;
     private final float NORMAL_SCALE = 1f;
-    private static final Texture hiddenFace = new Texture("chimp\\button.png");
+    private static final Texture backgroundFace = new Texture("chimp\\button.png");
     private static final Texture emptyFace = new Texture("chimp\\emptyFace.png");
 
     /*
@@ -73,19 +76,21 @@ public class ButtonNumber extends Actor{
     /*
         Responsável por criar um botão de acordo com os valores passados.
      */
-    public ButtonNumber(int id, float x, float y, float width, float height) {
+    public ButtonNumber(int id, float x, float y) {
         this.id = id;
         this.hidden = false;
         this.empty = false;
-        this.setBounds(x, y, width, height);
+        this.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
         this.setTouchable(Touchable.enabled);
 
         this.emptyButton = new Sprite(emptyFace);
-        this.emptyButton.setBounds(x, y, width, height);
-        this.hiddenButton = new Sprite(hiddenFace);
-        this.hiddenButton.setBounds(x, y, width, height);
+        this.emptyButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
+        this.hiddenButton = new Sprite(backgroundFace);
+        this.hiddenButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
         this.visibleButton = new Sprite(buttonMap.get(this.id));
-        this.visibleButton.setBounds(x, y, width, height);
+        this.visibleButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
+        this.backgroundButton = new Sprite(backgroundFace);
+        this.backgroundButton.setBounds(x,y,Constants.WORLD_WIDTH * 0.02f,Constants.WORLD_HEIGHT * 0.06f);
 
         addListener(new InputListener(){
             @Override
@@ -108,6 +113,7 @@ public class ButtonNumber extends Actor{
         } else if(empty)
             emptyButton.draw(batch);
         else {
+            backgroundButton.draw(batch);
             visibleButton.draw(batch);
         }
     }
@@ -129,11 +135,12 @@ public class ButtonNumber extends Actor{
         this.setTouchable(Touchable.disabled);
     }
 
-    public void changePosition(float x, float y, float width, float height) {
-        this.setBounds(x,y,width,height);
-        this.emptyButton.setBounds(x, y, width, height);
-        this.hiddenButton.setBounds(x, y, width, height);
-        this.visibleButton.setBounds(x, y, width, height);
+    public void changePosition(float x, float y) {
+        this.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
+        this.emptyButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
+        this.hiddenButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
+        this.visibleButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
+        this.backgroundButton.setBounds(x - Constants.WORLD_WIDTH * 0.005f, y - Constants.WORLD_HEIGHT * 0.008f, Constants.WORLD_WIDTH * 0.03f, Constants.WORLD_HEIGHT * 0.08f);
     }
 
     public int getId() {

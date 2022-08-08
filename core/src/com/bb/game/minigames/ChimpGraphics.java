@@ -89,6 +89,7 @@ public class ChimpGraphics extends MiniGameGraphics{
     ChimpGraphics(Difficulty difficulty){
         this.logic = new ChimpLogic(difficulty);
         this.gameReset = false;
+        reset();
         initializeButtons();
         setUpStage();
     }
@@ -104,7 +105,7 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     private void setUpStage() {
         setUpActors();
-        setUpText();
+        setUpPanel();
         getStage().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -140,31 +141,6 @@ public class ChimpGraphics extends MiniGameGraphics{
         }
     }
     /*
-        Inicializa a parte textual que sera exibida na tela.
-     */
-    private void setUpText() {
-        final Color PALE_YELLOW = new Color(243f/255f, 248f/255f, 146f/255f, 1);
-        final float FONT_SCALE = 1.5f;
-        final Label.LabelStyle STYLE_1 = new Label.LabelStyle(Fonts.COMIC_NEUE, PALE_YELLOW);
-
-        Label scoreText = new Label("Score: ", STYLE_1);
-        scoreText.setPosition(Constants.WORLD_WIDTH*0.86f, Constants.WORLD_HEIGHT*0.85f);
-        scoreText.setFontScale(FONT_SCALE);
-        getStage().addActor(scoreText);
-        Label timeLeftText = new Label("Time left: ", STYLE_1);
-        timeLeftText.setPosition(Constants.WORLD_WIDTH*0.86f, Constants.WORLD_HEIGHT*0.75f);
-        timeLeftText.setFontScale(FONT_SCALE);
-        getStage().addActor(timeLeftText);
-        this.scoreIndicator = new Label(getScore().toString(), new Label.LabelStyle(Fonts.COMIC_NEUE, Color.WHITE));
-        this.scoreIndicator.setPosition(scoreText.getX() + (scoreText.getWidth() * FONT_SCALE), scoreText.getY());
-        this.scoreIndicator.setFontScale(FONT_SCALE);
-        getStage().addActor(this.scoreIndicator);
-        this.timerIndicator = new Label(String.format("%.0f", getTimer()), new Label.LabelStyle(Fonts.COMIC_NEUE, Color.GREEN));
-        this.timerIndicator.setPosition(timeLeftText.getX() + (timeLeftText.getWidth() * FONT_SCALE), timeLeftText.getY());
-        this.timerIndicator.setFontScale(FONT_SCALE);
-        getStage().addActor(this.timerIndicator);
-    }
-    /*
         Inicializa os botões, onde seu número varia de acordo
         com a dificuldade.
      */
@@ -179,32 +155,15 @@ public class ChimpGraphics extends MiniGameGraphics{
 
         float x;
         float y;
-        float width;
-        float height = Constants.WORLD_HEIGHT * 0.06f;
 
-        // limite x: 0.03-0.67
-        // limite y: 0.13-0.82
-        // y: 0.1-0.82;  x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
-        // y: 0.1-0.41;  x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
-        // y: 0.42-0.82; x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
-        // y: 0.1-0.27;  x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
-        // y: 0.28-0.54; x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
-        // y: 0.55-0.81; x: 0.02-0.12,0.13-0.23,0.24-0.34,0.35-0.45,0.46-0.56,0.57-0.67
         for(int i = 0; i < this.logic.getButtons().size(); i++){
             x = Constants.WORLD_WIDTH * (float)(minXValues.get(i) + Math.random() * (maxXValues.get(i) - minXValues.get(i)));
             y = Constants.WORLD_HEIGHT * (float)(minYValues.get(i) + Math.random() * (maxYValues.get(i) - minYValues.get(i)));
-            // x = Constants.WORLD_WIDTH * 0.03f;
-            // y = Constants.WORLD_HEIGHT * 0.13f;
-
-            if(this.logic.getButtons().get(i)>9)
-                width = Constants.WORLD_WIDTH * 0.04f;
-            else
-                width = Constants.WORLD_WIDTH * 0.02f;
 
             if(!gameReset)
-                this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y, width, height));
+                this.buttons.add(new ButtonNumber(this.logic.getButtons().get(i), x, y));
             else
-                this.buttons.get(this.logic.getButtons().get(i)-1).changePosition(x,y,width,height);
+                this.buttons.get(this.logic.getButtons().get(i)-1).changePosition(x,y);
         }
 
         showButtons();
@@ -272,12 +231,12 @@ public class ChimpGraphics extends MiniGameGraphics{
         List<Float> minYValues;
         if(this.logic.getDifficulty() == 0 || this.logic.getDifficulty() == 1) {
             minYValues = List.of(
-                    0.13f,
-                    0.13f,
-                    0.13f,
-                    0.13f,
-                    0.13f,
-                    0.13f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
                     0.42f,
                     0.42f,
                     0.42f,
@@ -288,12 +247,12 @@ public class ChimpGraphics extends MiniGameGraphics{
         }
         else {
             minYValues = List.of(
-                    0.13f,
-                    0.13f,
-                    0.13f,
-                    0.13f,
-                    0.13f,
-                    0.13f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
+                    0.15f,
                     0.28f,
                     0.28f,
                     0.28f,
@@ -424,13 +383,6 @@ public class ChimpGraphics extends MiniGameGraphics{
     @Override
     public void render(float delta) {
         this.logic.incrementTimer(delta);
-        this.timerIndicator.setText(String.format("%.0f", TIME_LIMIT - getTimer()));
-        if(getTimer()>TIME_LIMIT - 10f){
-            timerIndicator.setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.RED));
-        }else if(getTimer()>TIME_LIMIT/2f){
-            timerIndicator.setStyle(new Label.LabelStyle(Fonts.COMIC_NEUE, Color.YELLOW));
-        }
-        this.scoreIndicator.setText(getScore().toString());
         super.render(delta);
     }
 }
