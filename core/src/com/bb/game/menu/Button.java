@@ -18,7 +18,8 @@ public class Button extends Actor {
             "play", new Texture("menu\\play_button.png"),
             "ranking", new Texture("menu\\ranking_button.png"),
             "settings", new Texture("menu\\settings_button.png"),
-            "about",new Texture("menu\\about_button.png")
+            "about",new Texture("menu\\about_button.png"),
+            "return",new Texture("menu\\return_button.png")
     );
 
     public Button(String name, float x, float y, float width, float height) {
