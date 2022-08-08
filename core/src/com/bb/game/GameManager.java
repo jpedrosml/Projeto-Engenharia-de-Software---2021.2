@@ -9,6 +9,10 @@ import com.bb.game.minigames.MiniGameGraphics;
 import com.bb.game.utils.Volume;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class GameManager {
@@ -17,6 +21,7 @@ public class GameManager {
     private int currentRound;
     private Difficulty difficulty;
     private int score;
+    private List<Integer> ranking;
 
     private static final SecureRandom random = new SecureRandom();
     private static final int ROUNDS_PER_GAME = 4;
@@ -25,6 +30,12 @@ public class GameManager {
         this.game = game;
         this.currentRound = 0;
         this.difficulty = Difficulty.EASY;
+        this.ranking = new ArrayList<>();
+    }
+
+    public List<Integer> getRanking() {
+        Collections.sort(ranking);
+        return this.ranking;
     }
 
     public void playGame() {
@@ -36,6 +47,13 @@ public class GameManager {
             miniGame.setManager(this);
             this.game.setScreen(miniGame);
         }else{
+            if(ranking.size() < 10)
+                ranking.add(score);
+            else {
+                Collections.sort(ranking);
+                if(score > ranking.get(0))
+                    ranking.set(0, score);
+            }
             this.game.setScreen(new ScoreScreen(score, game));
         }
         this.currentRound++;
