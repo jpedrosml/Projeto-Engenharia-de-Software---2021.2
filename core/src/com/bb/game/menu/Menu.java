@@ -88,6 +88,7 @@ public class Menu extends BrainyBeansGraphics {
                 game.setScreen(new Settings(game));
                 break;
             case "about":
+                Gdx.net.openURI("https://github.com/jpedrosml/Projeto-Engenharia-de-Software---2021.2");
                 break;
             default:
                 throw new IllegalStateException();
