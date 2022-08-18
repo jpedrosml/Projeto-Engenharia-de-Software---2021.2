@@ -1,5 +1,8 @@
 package com.bb.game.minigames;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
+import static com.bb.game.utils.Volume.*;
 
 import java.security.SecureRandom;
 
@@ -28,8 +32,10 @@ public class AimGraphics extends MiniGameGraphics{
     private static final Texture beanTexture = new Texture("aim\\bean.png");
     private static final Texture standGuyTexture = new Texture("aim\\stand_guy.png");
     private static final Texture counterTexture = new Texture("aim\\counter.png");
-    private static final SecureRandom random = new SecureRandom();
     private static final Texture backgroundTexture = new Texture("aim\\background.png");
+    private static final SecureRandom random = new SecureRandom();
+    private static final Sound sfx1 = Gdx.audio.newSound(Gdx.files.internal("aim\\sfx1.wav"));
+    private static final Music bgmusic = Gdx.audio.newMusic(Gdx.files.internal("aim\\bgmusic.mp3"));
 
     public AimGraphics(Difficulty difficulty){
         this.logic = new AimLogic(difficulty);
@@ -38,6 +44,9 @@ public class AimGraphics extends MiniGameGraphics{
         this.bean.setBounds(BEAN_ORIGINAL_X, BEAN_ORIGINAL_Y, Constants.WORLD_HEIGHT * 0.1f, Constants.WORLD_HEIGHT * 0.1f);
         this.bean.setOrigin(bean.getOriginX() + bean.getImageWidth()/2, bean.getOriginY() + bean.getImageHeight());
         this.bean.setTouchable(Touchable.disabled);
+        bgmusic.play();
+        bgmusic.setVolume(MUSIC_VOLUME);
+        bgmusic.setLooping(true);
         reposition();
         setUpStage();
     }
@@ -77,6 +86,7 @@ public class AimGraphics extends MiniGameGraphics{
                     if (event.getTarget() instanceof Target) {
                         Target t = (Target) event.getTarget();
                         if (t.inTarget(x, y)) {
+                            sfx1.play(SFX_VOLUME);
                             t.setTouchable(Touchable.disabled);
                             updateScore(logic.scorePerHit(t.distanceToCenter(x, y)));
                             Timer.schedule(new Timer.Task() {
@@ -102,6 +112,12 @@ public class AimGraphics extends MiniGameGraphics{
         sequence.addAction(Actions.moveTo(BEAN_ORIGINAL_X, BEAN_ORIGINAL_Y));
         sequence.addAction(Actions.scaleTo(1f, 1f));
         bean.addAction(sequence);
+    }
+
+    @Override
+    public void dispose() {
+        bgmusic.stop();
+        super.dispose();
     }
 
 }

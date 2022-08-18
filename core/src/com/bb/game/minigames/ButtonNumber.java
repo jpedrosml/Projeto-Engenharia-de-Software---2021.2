@@ -136,7 +136,7 @@ public class ButtonNumber extends Actor{
     }
 
     public void changePosition(float x, float y) {
-        this.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
+        this.setBounds(x - Constants.WORLD_WIDTH * 0.0075f, y - Constants.WORLD_HEIGHT * 0.008f, Constants.WORLD_WIDTH * 0.035f, Constants.WORLD_HEIGHT * 0.08f);
         this.emptyButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
         this.hiddenButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);
         this.visibleButton.setBounds(x, y, Constants.WORLD_WIDTH * 0.02f, Constants.WORLD_HEIGHT * 0.06f);

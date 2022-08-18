@@ -1,21 +1,19 @@
 package com.bb.game.minigames;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Timer;
 
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import com.bb.game.utils.Constants;
 import com.bb.game.utils.Difficulty;
-import com.bb.game.utils.Fonts;
 import static com.bb.game.utils.Volume.*;
 
 import java.util.ArrayList;
@@ -35,14 +33,6 @@ public class ChimpGraphics extends MiniGameGraphics{
      */
     private ChimpLogic logic;
     /*
-        Guarda o indicador de pontos.
-     */
-    private Label scoreIndicator;
-    /*
-        Guarda o indicador do temporizador.
-     */
-    private Label timerIndicator;
-    /*
         Diz se o jogo foi resetado ou não.
      */
     private boolean gameReset;
@@ -60,6 +50,7 @@ public class ChimpGraphics extends MiniGameGraphics{
     /*
         Sons a serem usados no jogo.
      */
+    private static final Music bgmusic = Gdx.audio.newMusic(Gdx.files.internal("chimp\\bgmusic.mp3"));
     private static final Sound sfxLose = Gdx.audio.newSound(Gdx.files.internal("chimp\\sfxLose.mp3"));
     private static final Sound sfxWin = Gdx.audio.newSound(Gdx.files.internal("chimp\\sfxWin.mp3"));
     private static final List<Sound> soundList = List.of(
@@ -89,6 +80,11 @@ public class ChimpGraphics extends MiniGameGraphics{
     ChimpGraphics(Difficulty difficulty){
         this.logic = new ChimpLogic(difficulty);
         this.gameReset = false;
+
+        bgmusic.play();
+        bgmusic.setVolume(MUSIC_VOLUME);
+        bgmusic.setLooping(true);
+
         reset();
         initializeButtons();
         setUpStage();
@@ -384,5 +380,11 @@ public class ChimpGraphics extends MiniGameGraphics{
     public void render(float delta) {
         this.logic.incrementTimer(delta);
         super.render(delta);
+    }
+
+    @Override
+    public void dispose() {
+        bgmusic.stop();
+        super.dispose();
     }
 }
